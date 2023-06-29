@@ -47,7 +47,7 @@
                     <constraint firstItem="pMK-E1-nQF" firstAttribute="centerX" secondItem="kOP-Ks-h98" secondAttribute="centerX" id="v9I-Z7-vnb"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-102" y="-79"/>
+            <point key="canvasLocation" x="-39" y="-73"/>
         </viewController>
     </objects>
     <resources>
