@@ -10,9 +10,14 @@
 		ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */; };
 		ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */; };
 		ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F32A4DDC7D00942944 /* ViewController.swift */; };
-		ADC4D3F72A4DDC7D00942944 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D3F52A4DDC7D00942944 /* Main.storyboard */; };
 		ADC4D3F92A4DDC7D00942944 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */; };
-		ADC4D3FC2A4DDC7D00942944 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D3FA2A4DDC7D00942944 /* LaunchScreen.storyboard */; };
+		ADC4D4042A4DDC9B00942944 /* CustomLaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D4032A4DDC9B00942944 /* CustomLaunchScreen.xib */; };
+		ADC4D4092A4DDE2200942944 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D4062A4DDE2200942944 /* SFProText-Semibold.ttf */; };
+		ADC4D40A2A4DDE2200942944 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D4072A4DDE2200942944 /* SFProText-Regular.ttf */; };
+		ADC4D40B2A4DDE2200942944 /* SFProDisplay-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D4082A4DDE2200942944 /* SFProDisplay-Semibold.ttf */; };
+		ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */; };
+		ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */; };
+		ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D4102A4DF2D400942944 /* InfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +25,15 @@
 		ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		ADC4D3F32A4DDC7D00942944 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		ADC4D3F62A4DDC7D00942944 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		ADC4D3FB2A4DDC7D00942944 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ADC4D3FD2A4DDC7D00942944 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADC4D4032A4DDC9B00942944 /* CustomLaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomLaunchScreen.xib; sourceTree = "<group>"; };
+		ADC4D4062A4DDE2200942944 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
+		ADC4D4072A4DDE2200942944 /* SFProText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Regular.ttf"; sourceTree = "<group>"; };
+		ADC4D4082A4DDE2200942944 /* SFProDisplay-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Semibold.ttf"; sourceTree = "<group>"; };
+		ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
+		ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewController.swift; sourceTree = "<group>"; };
+		ADC4D4102A4DF2D400942944 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +69,25 @@
 				ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */,
 				ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */,
 				ADC4D3F32A4DDC7D00942944 /* ViewController.swift */,
-				ADC4D3F52A4DDC7D00942944 /* Main.storyboard */,
+				ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */,
+				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
+				ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */,
 				ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */,
-				ADC4D3FA2A4DDC7D00942944 /* LaunchScreen.storyboard */,
+				ADC4D4032A4DDC9B00942944 /* CustomLaunchScreen.xib */,
 				ADC4D3FD2A4DDC7D00942944 /* Info.plist */,
+				ADC4D4052A4DDE2200942944 /* fonts */,
 			);
 			path = Habits;
+			sourceTree = "<group>";
+		};
+		ADC4D4052A4DDE2200942944 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				ADC4D4062A4DDE2200942944 /* SFProText-Semibold.ttf */,
+				ADC4D4072A4DDE2200942944 /* SFProText-Regular.ttf */,
+				ADC4D4082A4DDE2200942944 /* SFProDisplay-Semibold.ttf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,9 +148,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADC4D3FC2A4DDC7D00942944 /* LaunchScreen.storyboard in Resources */,
+				ADC4D40A2A4DDE2200942944 /* SFProText-Regular.ttf in Resources */,
+				ADC4D40B2A4DDE2200942944 /* SFProDisplay-Semibold.ttf in Resources */,
+				ADC4D4042A4DDC9B00942944 /* CustomLaunchScreen.xib in Resources */,
 				ADC4D3F92A4DDC7D00942944 /* Assets.xcassets in Resources */,
-				ADC4D3F72A4DDC7D00942944 /* Main.storyboard in Resources */,
+				ADC4D4092A4DDE2200942944 /* SFProText-Semibold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,32 +163,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */,
 				ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */,
 				ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */,
+				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,
+				ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		ADC4D3F52A4DDC7D00942944 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ADC4D3F62A4DDC7D00942944 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		ADC4D3FA2A4DDC7D00942944 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ADC4D3FB2A4DDC7D00942944 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		ADC4D3FE2A4DDC7D00942944 /* Debug */ = {
@@ -291,8 +300,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Habits/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = CustomLaunchScreen.xib;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -302,6 +310,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = i.Habits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -319,8 +330,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Habits/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = CustomLaunchScreen.xib;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -330,6 +340,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = i.Habits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
