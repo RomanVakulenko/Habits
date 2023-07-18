@@ -7,12 +7,160 @@
 
 import UIKit
 
-class InfoViewController: UIViewController {
+final class InfoViewController: UIViewController {
+
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.clipsToBounds = true
+        return contentView
+    }()
+
+    private lazy var textTitle: UILabel = {
+        let textTitle = UILabel()
+        textTitle.translatesAutoresizingMaskIntoConstraints = false
+        textTitle.font = UIFont(name: "SFProDisplay-Semibold", size: 20.0)
+        textTitle.textColor = .black
+        textTitle.text = "Привычка за 21 день"
+        return textTitle
+    }()
+
+    private lazy var text0: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "Прохождение этапов, за которые за 21 день вырабатывается привычка, подчиняется следующему алгоритму:"
+        infoText.lineBreakMode = .byWordWrapping
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text1: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "1. Провести 1 день без обращения к старым привычкам, стараться вести себя так, как будто цель, загаданная в перспективу, находится на расстоянии шага."
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text2: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "2. Выдержать 2 дня в прежнем состоянии самоконтроля."
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text3: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "3. Отметить в дневнике первую неделю изменений и подвести первые итоги — что оказалось тяжело, что — легче, с чем еще предстоит серьезно бороться."
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text4: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "4. Поздравить себя с прохождением первого серьезного порога в 21 день. За это время отказ от дурных наклонностей уже примет форму осознанного преодоления и человек сможет больше работать в сторону принятия положительных качеств."
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text5: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "5. Держать планку 40 дней. Практикующий методику уже чувствует себя освободившимся от прошлого негатива и двигается в нужном направлении с хорошей динамикой."
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text6: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "6. На 90-й день соблюдения техники все лишнее из «прошлой жизни» перестает напоминать о себе, и человек, оглянувшись назад, осознает себя полностью обновившимся."
+        infoText.numberOfLines = 0
+        return infoText
+    }()
+
+    private lazy var text7: UILabel = {
+        let infoText = UILabel()
+        infoText.translatesAutoresizingMaskIntoConstraints = false
+        infoText.font = UIFont(name: "SFProText-Regular", size: 17.0)
+        infoText.textColor = .black
+        infoText.text = "Источник: psychbook.ru"
+        return infoText
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [text0, text1, text2, text3, text4, text5, text6, text7])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.clipsToBounds = true
+        stack.axis = .vertical
+        stack.alignment = .fill
+        stack.distribution = .fill
+        stack.backgroundColor = .white
+        stack.spacing = 12.0
+        return stack
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        self.title = "Информация"
+        layout()
+    }
+
+    private func layout() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(textTitle)
+        contentView.addSubview(stackView)
+
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32),
+            //constrains of content
+
+            textTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            textTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            textTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 22),
+
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 62),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
 
+        ])
     }
 
 }

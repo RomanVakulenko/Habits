@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HabitsViewController: UIViewController {
+final class HabitsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,7 @@ class HabitsViewController: UIViewController {
         let addOrEditHabitVC = AddOrEditHabitVC()
         addOrEditHabitVC.modalTransitionStyle = .coverVertical
         addOrEditHabitVC.modalPresentationStyle = .fullScreen
-        addOrEditHabitVC.view.backgroundColor = .lightGray
+        addOrEditHabitVC.view.backgroundColor = UIColor(red: 242, green: 242, blue: 247, alpha: 1)
 
         present(addOrEditHabitVC, animated: true)
     }
