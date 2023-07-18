@@ -14,4 +14,23 @@ class HabitsViewController: UIViewController {
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: self,
+            action: #selector(addHabit))
+    }
+
+
+    @objc func addHabit() {
+        let addOrEditHabitVC = AddOrEditHabitVC()
+        addOrEditHabitVC.modalTransitionStyle = .coverVertical
+        addOrEditHabitVC.modalPresentationStyle = .fullScreen
+        addOrEditHabitVC.view.backgroundColor = .lightGray
+
+        present(addOrEditHabitVC, animated: true)
+    }
+    
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */; };
 		ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */; };
 		ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */; };
 		ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F32A4DDC7D00942944 /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditHabitVC.swift; sourceTree = "<group>"; };
 		ADC4D3EC2A4DDC7D00942944 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */,
 				ADC4D3F32A4DDC7D00942944 /* ViewController.swift */,
 				ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */,
+				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
 				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
 				ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */,
 				ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */,
@@ -165,6 +168,7 @@
 			files = (
 				ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */,
 				ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */,
+				ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */,
 				ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */,
 				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,
 				ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */,
