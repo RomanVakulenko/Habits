@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD980D532A66B32A00BB9EA8 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */; };
+		AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */; };
 		ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */; };
 		ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */; };
 		ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
+		AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
 		ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditHabitVC.swift; sourceTree = "<group>"; };
 		ADC4D3EC2A4DDC7D00942944 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,7 +75,9 @@
 				ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */,
 				ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */,
 				ADC4D3F32A4DDC7D00942944 /* ViewController.swift */,
+				AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */,
 				ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */,
+				AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */,
 				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
 				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
 				ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */,
@@ -168,8 +174,10 @@
 			files = (
 				ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */,
 				ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */,
+				AD980D532A66B32A00BB9EA8 /* UIView+extension.swift in Sources */,
 				ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */,
 				ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */,
+				AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */,
 				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,
 				ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
