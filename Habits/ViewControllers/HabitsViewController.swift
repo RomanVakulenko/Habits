@@ -9,14 +9,19 @@ import UIKit
 
 final class HabitsViewController: UIViewController {
 
+    private var store = HabitsStore.shared
+
     private lazy var collectionView: UICollectionView = {
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = .vertical
+//        collectionLayout.sectionInset = UIEdgeInsets(top: <#T##CGFloat#>, left: <#T##CGFloat#>, bottom: <#T##CGFloat#>, right: <#T##CGFloat#>)//так можно устрановить отступы для коллекции при ее инициализации
+//        collectionLayout.itemSize = CGSize(width: <#T##Double#>, height: <#T##Double#>) //так можно задать ширину и высоту ячейкам
 
         let collection = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = #colorLiteral(red: 0.9494450688, green: 0.9487820268, blue: 0.9670705199, alpha: 1)
         collection.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: ProgressCollectionViewCell.identifier)
+        collection.register(HabitCollectionViewCell.self, forCellWithReuseIdentifier: HabitCollectionViewCell.identifier)
         collection.delegate = self
         collection.dataSource = self
         return collection
@@ -27,7 +32,10 @@ final class HabitsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
-        navigationController?.navigationBar.largeContentTitle = "Cегодня"
+        title = "Сегодня"
+        store.habits.removeAll()
+        store.habits.append(Habit(name: "Приседания в перерывах", date: Date(), color: .systemBlue))
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -78,18 +86,28 @@ extension HabitsViewController: UICollectionViewDataSource {
         if section == 0 {
             numberOfItems = 1
         } else {
-            numberOfItems = HabitsStore.shared.habits.count
+            numberOfItems = store.habits.count
         }
         return numberOfItems
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProgressCollectionViewCell.identifier, for: indexPath) as? ProgressCollectionViewCell else { return UICollectionViewCell()}
-        cell.setupProgressCell()
+        if indexPath == [0,0] {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProgressCollectionViewCell.identifier, for: indexPath) as? ProgressCollectionViewCell else { return UICollectionViewCell()}
+            cell.setupProgressCell(with: store.todayProgress)
+            return cell
+        } else {
+            guard let habitCell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as? HabitCollectionViewCell else { return UICollectionViewCell()}
+            habitCell.setup(habit: store.habits[indexPath.item]){
+                collectionView.reloadData()
+            }
+            return habitCell
+        }
+
         //this needs to create delegate
 //        cell.delegate = self
 //        cell.<#methodGivesIndexPath#>(indexPath)
-        return cell
+//        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

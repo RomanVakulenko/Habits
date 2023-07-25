@@ -57,15 +57,10 @@ final class ProgressCollectionViewCell: UICollectionViewCell {
     }
 
     //MARK: - setup
-    func setupProgressCell(){
-        progressView.progress = 0.5 //HabitsStore.shared.todayProgress
-        percentLabelView.text = String(HabitsStore.shared.todayProgress * 100) + "%"
+    func setupProgressCell(with value: Float) {
+        percentLabelView.text = String(value * 100) + "%"
+        progressView.setProgress(value, animated: true)
     }
-
-//    override func prepareForReuse() {
-//        progressLabelView.text = nil
-//        progressView.progress = nil
-//    }
 
     //MARK: - layout
     private func layout() {
