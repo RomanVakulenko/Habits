@@ -21,6 +21,8 @@
 		ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */; };
 		ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */; };
 		ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D4102A4DF2D400942944 /* InfoViewController.swift */; };
+		ADE43ECB2A73CF3D00B2799C /* HabitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE43ECA2A73CF3D00B2799C /* HabitDetailsViewController.swift */; };
+		ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
 		ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewController.swift; sourceTree = "<group>"; };
 		ADC4D4102A4DF2D400942944 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		ADE43ECA2A73CF3D00B2799C /* HabitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewController.swift; sourceTree = "<group>"; };
+		ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingDaysCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 		AD980D582A6A747600BB9EA8 /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */,
 				AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */,
 				AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */,
 			);
@@ -73,6 +78,7 @@
 		AD980D5C2A6ADF9000BB9EA8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				ADE43ECA2A73CF3D00B2799C /* HabitDetailsViewController.swift */,
 				ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */,
 				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
 				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
@@ -203,7 +209,9 @@
 				AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */,
 				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,
 				ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */,
+				ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
+				ADE43ECB2A73CF3D00B2799C /* HabitDetailsViewController.swift in Sources */,
 				AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,8 +22,8 @@ final class ProgressCollectionViewCell: UICollectionViewCell {
         progress.translatesAutoresizingMaskIntoConstraints = false
         progress.progress = 0
         progress.observedProgress?.totalUnitCount = 100
-        progress.progressTintColor = #colorLiteral(red: 0.6309858561, green: 0.08523046225, blue: 0.8001720309, alpha: 1)
-        progress.trackTintColor = #colorLiteral(red: 0.8487350345, green: 0.8487350941, blue: 0.8487350345, alpha: 1)
+        progress.progressTintColor = UIColor(named: "dPurple")
+        progress.trackTintColor = UIColor(named: "dBackground")
         return progress
     }()
 

@@ -65,25 +65,24 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         return digit
     }()
 
-    private lazy var checkButtonButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        let large = UIImage.SymbolConfiguration(scale: .large)
-        button.setImage(UIImage(systemName: "circle", withConfiguration: large), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.backgroundColor = .none
-        button.addTarget(target, action: #selector(checkMarkTapped(_:)), for: .touchUpInside)
-        return button
+    private lazy var checkMarkImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage.init(systemName: "circle"))
+        imageView.backgroundColor = .none
+        imageView.layer.cornerRadius = 19
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
+        return imageView
     }()
 
-    private let checkedButton = UIImage(systemName: "checkmark.circle.fill")?.withRenderingMode(.alwaysTemplate) //позволяет создать шаблонное изображение, которое может быть затемнено или окрашено в другой цвет, используя эту картинку
-    private let uncheckedButton = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
+
+//    private let checkedButton = UIImage(systemName: "checkmark.circle.fill")?.withRenderingMode(.alwaysTemplate) //позволяет создать шаблонное изображение, которое может быть затемнено или окрашено в другой цвет, используя эту картинку
+//    private let uncheckedButton = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
 
 // MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
+        setTapGestureAtCheckMark()
     }
 
     required init?(coder: NSCoder) {
@@ -91,6 +90,10 @@ final class HabitCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - setup
+    private func setTapGestureAtCheckMark(){
+        let tapToCheckMark = UITapGestureRecognizer(target: self, action: #selector(checkMarkTapped(_:)))
+        checkMarkImageView.addGestureRecognizer(tapToCheckMark)
+    }
 
     func setup(habit: Habit, closure: @escaping () -> Void){
         self.habit = habit
@@ -102,11 +105,13 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         amountOfRepeats.text = String(habit.trackDates.count)
 
         if habit.isAlreadyTakenToday {
-            checkButtonButton.setImage(checkedButton, for: .normal)
+//            checkMarkButton.setImage(checkedButton, for: .normal)
+            checkMarkImageView.image = UIImage.init(systemName: "checkmark.circle.fill")
         } else {
-            checkButtonButton.setImage(uncheckedButton, for: .normal)
+//            checkMarkButton.setImage(uncheckedButton, for: .normal)
+            checkMarkImageView.image = UIImage.init(systemName: "circle")
         }
-        checkButtonButton.tintColor = habit.color
+        checkMarkImageView.tintColor = habit.color
     }
 
     override func prepareForReuse() {
@@ -120,7 +125,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
 //MARK: - private methods
 
     private func layout() {
-        [nameOfHabit, everyDayLabel, timeOfHabit, counterOfHabit, amountOfRepeats, checkButtonButton].forEach { habitView.addSubview($0) }
+        [nameOfHabit, everyDayLabel, timeOfHabit, counterOfHabit, amountOfRepeats, checkMarkImageView].forEach { habitView.addSubview($0) }
         contentView.addSubview(habitView)
 
         NSLayoutConstraint.activate([
@@ -146,17 +151,17 @@ final class HabitCollectionViewCell: UICollectionViewCell {
             amountOfRepeats.leadingAnchor.constraint(equalTo: counterOfHabit.trailingAnchor),
             amountOfRepeats.bottomAnchor.constraint(equalTo: habitView.bottomAnchor, constant: -20),
 
-            checkButtonButton.trailingAnchor.constraint(equalTo: habitView.trailingAnchor, constant: -25),
-            checkButtonButton.widthAnchor.constraint(equalToConstant: 38),
-            checkButtonButton.heightAnchor.constraint(equalToConstant: 38),
-            checkButtonButton.centerYAnchor.constraint(equalTo: habitView.centerYAnchor)
-
+            checkMarkImageView.trailingAnchor.constraint(equalTo: habitView.trailingAnchor, constant: -25),
+            checkMarkImageView.heightAnchor.constraint(equalToConstant: 38),
+            checkMarkImageView.widthAnchor.constraint(equalToConstant: 38),
+            checkMarkImageView.bottomAnchor.constraint(equalTo: habitView.bottomAnchor, constant: -46),
         ])
     }
 
     @objc func checkMarkTapped(_ sender: UIButton) {
         if habit.isAlreadyTakenToday == false {
-            checkButtonButton.setImage(checkedButton, for: .normal)
+//            checkMarkButton.setImage(checkedButton, for: .normal)
+//            checkMarkImageView.image = UIImage.init(systemName: "checkmark.circle.fill")
             HabitsStore.shared.track(habit)
             self.stateBntTapClosure()
         }

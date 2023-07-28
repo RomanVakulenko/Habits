@@ -10,16 +10,14 @@ import UIKit
 final class HabitsViewController: UIViewController {
 
     private var store = HabitsStore.shared
-
+    
     private lazy var collectionView: UICollectionView = {
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = .vertical
-//        collectionLayout.sectionInset = UIEdgeInsets(top: <#T##CGFloat#>, left: <#T##CGFloat#>, bottom: <#T##CGFloat#>, right: <#T##CGFloat#>)//так можно устрановить отступы для коллекции при ее инициализации
-//        collectionLayout.itemSize = CGSize(width: <#T##Double#>, height: <#T##Double#>) //так можно задать ширину и высоту ячейкам
 
         let collection = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.backgroundColor = #colorLiteral(red: 0.9494450688, green: 0.9487820268, blue: 0.9670705199, alpha: 1)
+        collection.backgroundColor = UIColor(named: "dBackground")
         collection.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: ProgressCollectionViewCell.identifier)
         collection.register(HabitCollectionViewCell.self, forCellWithReuseIdentifier: HabitCollectionViewCell.identifier)
         collection.delegate = self
@@ -46,6 +44,8 @@ final class HabitsViewController: UIViewController {
             target: self,
             action: #selector(addHabit)
         )
+        navigationController?.navigationBar.tintColor = UIColor(named: "dPurple")
+        collectionView.reloadData()
     }
 
 
@@ -64,11 +64,13 @@ final class HabitsViewController: UIViewController {
 
     @objc func addHabit() {
         let addOrEditHabitVC = AddOrEditHabitVC()
-        addOrEditHabitVC.modalTransitionStyle = .coverVertical
-        addOrEditHabitVC.modalPresentationStyle = .fullScreen
-        addOrEditHabitVC.view.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.969, alpha: 1)
-
-        present(addOrEditHabitVC, animated: true)
+        let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.
+        navController.view.backgroundColor = UIColor(named: "dBackground")
+        navController.modalTransitionStyle = .coverVertical
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationBar.tintColor = UIColor(named: "dPurple")
+//        navController.hidesBottomBarWhenPushed = true 
+        present(navController, animated: true)
     }
     
 }
@@ -103,11 +105,6 @@ extension HabitsViewController: UICollectionViewDataSource {
             }
             return habitCell
         }
-
-        //this needs to create delegate
-//        cell.delegate = self
-//        cell.<#methodGivesIndexPath#>(indexPath)
-//        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -140,8 +137,5 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
        12
     }
-    // между элементами в 1 строке - вертикальная коллекции, в 1 столбце-горизонтКоллекц
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        inset
-//    }
+
 }
