@@ -93,14 +93,6 @@ final class AddOrEditHabitVC: UIViewController {
         return pickedTime
     }()
 
-//    private lazy var datePickerLabel: UILabel = {
-//        datePickerLabel = UILabel()
-//        let dateString = currentDate.formatted(date: .omitted, time: .shortened)
-//        setTextDateIntoPickerLabel(with: dateString) // форматирует время и дописывает в строку
-//        datePickerLabel.translatesAutoresizingMaskIntoConstraints = false
-//        return datePickerLabel
-//    }()
-
     private lazy var datePicker: UIDatePicker = { //константа инициализируется при первом обращении к ней
         let timePicker = UIDatePicker()
         timePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -198,8 +190,6 @@ final class AddOrEditHabitVC: UIViewController {
 
             pickedHabitTime.leadingAnchor.constraint(equalTo: preTimeTextHabit.trailingAnchor),
             pickedHabitTime.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
-//            datePickerLabel.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-//            datePickerLabel.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
 
             datePicker.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
@@ -244,25 +234,6 @@ final class AddOrEditHabitVC: UIViewController {
         present(colorPicker, animated: true)
     }
 
-//    private func createDatePickerLabel() {
-//        datePickerLabel = UILabel()
-//        let dateString = currentDate.formatted(date: .omitted, time: .shortened)
-//        setTextDateIntoPickerLabel(with: dateString) // форматирует время и дописывает в строку
-//        datePickerLabel.translatesAutoresizingMaskIntoConstraints = false
-//        baseView.addSubview(datePickerLabel)
-//
-//        NSLayoutConstraint.activate([
-//            datePickerLabel.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-//            datePickerLabel.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
-//            ])
-//    }
-
-//    //Чтобы сделать текст в одном свойстве и чтобы для частm текста настроить кастомно
-//    private func setTextDateIntoPickerLabel(with value: String){
-//        let mutableString = NSMutableAttributedString(string: "Каждый день в \(value)")
-//        mutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "dPurple")!, range: NSRange(location: 12, length: value.count + 2)) //устанавливает цвет текста для указанного диапазона символов после 13ого и по value.count + 2 включительно
-//    }
-
     @objc func pickTime(_ sender: UIDatePicker) {
         currentDate = sender.date
         pickedHabitTime.text = sender.date.formatted(date: .omitted, time: .shortened)
@@ -279,7 +250,6 @@ final class AddOrEditHabitVC: UIViewController {
             let habitsVC = HabitsViewController()
             self.navigationController?.popToViewController(habitsVC, animated: true)
         }))
-        // экраны AddOrEditHabitVC закрываются и привычка пропадает из списка на экране MyHabitsViewController.
         present(alert, animated: true)
     }
 }
@@ -288,7 +258,6 @@ final class AddOrEditHabitVC: UIViewController {
 //MARK: - UIColorPickerViewControllerDelegate
 extension AddOrEditHabitVC: UIColorPickerViewControllerDelegate {
 
-    //  Called once you have finished picking the color.
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         colorPicker.dismiss(animated: true) { [weak self] in
             guard let self else {return}

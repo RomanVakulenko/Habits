@@ -10,6 +10,7 @@
 		AD980D532A66B32A00BB9EA8 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */; };
 		AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */; };
 		AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */; };
+		AD9AA0782A74F598001D0154 /* HeaderDetailHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */; };
 		ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */; };
 		ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */; };
 		ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */; };
@@ -29,6 +30,7 @@
 		AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
 		AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCollectionViewCell.swift; sourceTree = "<group>"; };
+		AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderDetailHabit.swift; sourceTree = "<group>"; };
 		ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditHabitVC.swift; sourceTree = "<group>"; };
 		ADC4D3EC2A4DDC7D00942944 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 		AD980D582A6A747600BB9EA8 /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */,
 				ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */,
 				AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */,
 				AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */,
@@ -212,6 +215,7 @@
 				ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
 				ADE43ECB2A73CF3D00B2799C /* HabitDetailsViewController.swift in Sources */,
+				AD9AA0782A74F598001D0154 /* HeaderDetailHabit.swift in Sources */,
 				AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

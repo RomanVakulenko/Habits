@@ -30,7 +30,7 @@ final class HabitsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
-        title = "Сегодня"
+        navigationItem.title = "Сегодня"
         store.habits.removeAll()
         store.habits.append(Habit(name: "Приседания в перерывах", date: Date(), color: .systemBlue))
 
@@ -69,7 +69,6 @@ final class HabitsViewController: UIViewController {
         navController.modalTransitionStyle = .coverVertical
         navController.modalPresentationStyle = .fullScreen
         navController.navigationBar.tintColor = UIColor(named: "dPurple")
-//        navController.hidesBottomBarWhenPushed = true 
         present(navController, animated: true)
     }
     
@@ -108,7 +107,9 @@ extension HabitsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        let habitDetailsVC = HabitDetailsViewController()
+        navigationController?.pushViewController(habitDetailsVC, animated: true)
+        habitDetailsVC.title = HabitsStore.shared.habits[indexPath.row].name
     }
 }
 
