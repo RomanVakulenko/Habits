@@ -69,12 +69,14 @@ final class TrackingDaysCell: UITableViewCell {
         for i in dates {
             fallingDates.insert(i, at: 0)
         }
-        print(fallingDates)
+        
         if index.row == 0 {
-            dateLabelView.text = "Вчера"
+            dateLabelView.text = "Сегодня"
         } else if index.row == 1 {
+            dateLabelView.text = "Вчера"
+        } else if index.row == 2 {
             dateLabelView.text = "Позавчера"
-        } else if index.row > 1 && index.row < dates.count - 1 { //count считает с 1, не с 0 (-1 дает и < дают на 2 строки меньше, которые у нас как раз заняты "вчера" и "позавчера"
+        } else if index.row > 2 && index.row < dates.count - 1 { //count считает с 1, не с 0 (-1 дает и < дают на 2 строки меньше, которые у нас как раз заняты "вчера" и "позавчера"
             dateLabelView.text = formatter.string(from: fallingDates[index.row + 1]) //ПОЧЕМУ в девятую строку(индек 8) тейблВью не выводится 19 июля 2023, а почему выводится 20 июля 2023, хотя fallingDates[8 + 1] == 19 июля 2023 ??? почему?
         } else if index.row == dates.count - 1 {
             dateLabelView.text = formatter.string(from: (fallingDates.last ?? Date()) - 1)

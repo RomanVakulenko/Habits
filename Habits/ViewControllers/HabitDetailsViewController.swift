@@ -9,6 +9,8 @@ import UIKit
 
 final class HabitDetailsViewController: UIViewController {
 
+    var indexOfHabit = Int()
+    private let store = HabitsStore.shared
     private let datesArr = HabitsStore.shared.dates
 
     private lazy var detailsTableView: UITableView = {
@@ -36,6 +38,8 @@ final class HabitDetailsViewController: UIViewController {
     private func navBarSettings(){
         let backButton = UIBarButtonItem(title: "Сегодня", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Править", style: .plain, target: self, action: #selector(editHabit))
     }
 
     private func layout(){
@@ -47,6 +51,13 @@ final class HabitDetailsViewController: UIViewController {
             detailsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             detailsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+
+    @objc func editHabit(_ sender: UIBarButtonItem){
+        let editVC = AddOrEditHabitVC()
+        editVC.habit = store.habits[indexOfHabit]
+        editVC.habitState = .edit
+        navigationController?.pushViewController(editVC, animated: true)
     }
 }
 
@@ -64,10 +75,15 @@ extension HabitDetailsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TrackingDaysCell.identifier, for: indexPath) as! TrackingDaysCell
-        print(datesArr)
 
         cell.setup(from: datesArr, at: indexPath)
-        cell.accessoryType = .checkmark
+        var fallingDates = [Date]() //dates.reversed().map { $0 } //развернутый массив дат
+        for i in datesArr {
+            fallingDates.insert(i, at: 0)
+        }
+        if store.habit(store.habits[indexOfHabit], isTrackedIn: fallingDates[indexPath.row]) {
+            cell.accessoryType = .checkmark
+        }
         cell.selectionStyle = .none
         return cell
     }

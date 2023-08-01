@@ -13,11 +13,11 @@ enum HabitVCState {
 
 final class AddOrEditHabitVC: UIViewController {
     
-    private var habit: Habit?
-    private var habitState = HabitVCState.create
+    var habit: Habit?
+    var habitState = HabitVCState.create
 
     private var currentTitle = ""
-    private var currentColor = UIColor.orange
+    private var currentColor = UIColor.systemBlue
     private var currentDate = Date()
 
     private let baseView: UIView = {
@@ -40,7 +40,7 @@ final class AddOrEditHabitVC: UIViewController {
         let text = UITextField()
         text.translatesAutoresizingMaskIntoConstraints = false
         text.font = UIFont(name: "SFProText-Regular", size: 17)
-        text.textColor = .black
+        text.textColor = .systemBlue
         text.placeholder = "Приседать в перерывах; Гимнастика глаз и т.п."
         return text
     }()
@@ -109,9 +109,8 @@ final class AddOrEditHabitVC: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isHidden = true //если надо, чтобы она сначала была скрыта
-        button.titleLabel?.text = "Удалить привычку"
-        button.titleLabel?.textColor = .red
-        button.isHidden = true
+        button.setTitle("Удалить привычку", for: .normal)
+        button.setTitleColor(.red, for: .normal)
         button.addTarget(self, action: #selector(showDeleteAlert(_:)), for: .touchUpInside)
         return button
     }()
@@ -121,20 +120,25 @@ final class AddOrEditHabitVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        createDatePickerLabel()
+        view.backgroundColor = UIColor(named: "dBackground")
 
         if let habit { //до установки элементов интерфейса и для экрана "Править"
             currentDate = habit.time
             currentColor = habit.color
             currentTitle = habit.name
         }
-
         layout()
         textTitleHabit.delegate = self
 
         if habitState == .edit {
+            let formatter = DateFormatter()
+            formatter.timeStyle = .short
             textTitleHabit.text = currentTitle //1h16min
+            textTitleHabit.textColor = currentColor
             pickerButton.tintColor = currentColor //для "Править" если цвет был - то оставляем
             datePicker.date = currentDate
+            pickedHabitTime.text = formatter.string(from: currentDate)
+            pickedHabitTime.textColor = UIColor(named: "dPurple")
             colorPicker.selectedColor = currentColor
             deleteButton.isHidden = false
         }
@@ -142,19 +146,23 @@ final class AddOrEditHabitVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Сохранить",
             style: .done,
             target: self,
             action: #selector(saveHabit)
         )
-        navigationController?.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: "Отменить",
             style: .plain,
             target: self,
             action: #selector(backToHabitsViewController)
         )
         title = habitState == .create ? "Создать" : "Править"
+
+        if habitState == .edit {
+            textTitleHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
+        }
     }
     
     //MARK: - private methods
@@ -204,7 +212,12 @@ final class AddOrEditHabitVC: UIViewController {
     }
 
     @objc func backToHabitsViewController() {
-        navigationController?.dismiss(animated: true)
+        if habitState == .create {
+            dismiss(animated: true)
+        } else if habitState == .edit {
+            let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
+            navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
+        }
     }
 
     @objc func saveHabit(_ sender: UIBarButtonItem) {
@@ -223,7 +236,7 @@ final class AddOrEditHabitVC: UIViewController {
                 h.time = currentDate
             }
             let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
-            self.navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
+            navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
         }
     }
 
@@ -240,17 +253,26 @@ final class AddOrEditHabitVC: UIViewController {
     }
 
     @objc func showDeleteAlert(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Удалить привычку", message: "Вы хотите удалить привычку \(String(describing: habit?.name))?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
-            guard let self else { return }
-            HabitsStore.shared.habits.removeAll {
-                $0.name == self.habit?.name //или $0 == self.habit
-            }
-            let habitsVC = HabitsViewController()
-            self.navigationController?.popToViewController(habitsVC, animated: true)
-        }))
-        present(alert, animated: true)
+        if let habit {
+            let alert = UIAlertController(
+                title: "Удалить привычку",
+                message: """
+                         Вы хотите удалить привычку "\(habit.name)?"
+                         """,
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
+                guard let self else { return }
+                HabitsStore.shared.habits.removeAll {
+                    $0.name == self.habit?.name //или $0 == self.habit
+                }
+                let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
+                navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
+            }))
+
+            present(alert, animated: true)
+        }
     }
 }
 
@@ -279,7 +301,10 @@ extension AddOrEditHabitVC: UITextFieldDelegate {
     }
 
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        currentTitle = textField.text ?? "" //это изменение мы будем сразу сохранять себе (лучше чем навешивать слушателя(?))
+        currentTitle = textField.text ?? "" //как только текст в поле меняется, то записывается в currentTitle
+        if habitState == .create {
+            textTitleHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
+        }
     }
 
 }

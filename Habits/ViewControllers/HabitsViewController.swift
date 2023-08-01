@@ -110,6 +110,7 @@ extension HabitsViewController: UICollectionViewDataSource {
         let habitDetailsVC = HabitDetailsViewController()
         navigationController?.pushViewController(habitDetailsVC, animated: true)
         habitDetailsVC.title = HabitsStore.shared.habits[indexPath.row].name
+        habitDetailsVC.indexOfHabit = indexPath.row
     }
 }
 

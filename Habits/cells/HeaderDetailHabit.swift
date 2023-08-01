@@ -35,8 +35,7 @@ final class HeaderDetailHabit: UIView {
             header.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             header.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             header.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            header.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            header.centerYAnchor.constraint(equalTo: centerYAnchor)
+            header.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
         ])
     }
 
