@@ -7,16 +7,37 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let scene = scene as? UIWindowScene else { return }
+        let window = UIWindow(windowScene: scene)
+
+        let habitsViewController = HabitsViewController()
+        habitsViewController.view.backgroundColor = .white
+        let habitsViewNavigationController = UINavigationController(rootViewController: habitsViewController)
+        habitsViewNavigationController.navigationBar.prefersLargeTitles = true
+
+        let infoViewController = InfoViewController()
+        infoViewController.title = "Информация"
+        let infoViewNavigationController = UINavigationController(rootViewController: infoViewController)
+
+        let tabBarController = UITabBarController()
+
+        let iconConfig = UIImage.SymbolConfiguration(scale: .default)
+        let habitsIcon = UIImage(named: "habits_tab_icon", in: Bundle.main, with: iconConfig)
+        habitsViewNavigationController.tabBarItem = UITabBarItem(title: "Привычки", image: habitsIcon, tag: 0)
+
+        infoViewNavigationController.tabBarItem.image = UIImage(named: "info.circle.fill")
+
+        tabBarController.viewControllers = [habitsViewNavigationController, infoViewNavigationController]
+        tabBarController.tabBar.tintColor = UIColor(named: "dPurple")
+        tabBarController.selectedIndex = 0
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
