@@ -14,7 +14,7 @@ public final class Habit: Codable {
     public var name: String
 
     /// Время выполнения привычки.
-    public var date: Date
+    public var time: Date
 
     /// Даты выполнения привычки.
     public var trackDates: [Date]
@@ -39,7 +39,7 @@ public final class Habit: Codable {
 
     /// Описание времени выполнения привычки.
     public var dateString: String {
-        "Каждый день в " + dateFormatter.string(from: date)
+        "Каждый день в " + dateFormatter.string(from: time)
     }
 
     /// Показывает, была ли сегодня добавлена привычка.
@@ -66,7 +66,7 @@ public final class Habit: Codable {
 
     public init(name: String, date: Date, trackDates: [Date] = [], color: UIColor) {
         self.name = name
-        self.date = date
+        self.time = date
         self.trackDates = trackDates
         var r: CGFloat = 0
         var g: CGFloat = 0
@@ -84,7 +84,7 @@ extension Habit: Equatable {
 
     public static func == (lhs: Habit, rhs: Habit) -> Bool {
         lhs.name == rhs.name &&
-        lhs.date == rhs.date &&
+        lhs.time == rhs.time &&
         lhs.trackDates == rhs.trackDates &&
         lhs.r == rhs.r &&
         lhs.g == rhs.g &&

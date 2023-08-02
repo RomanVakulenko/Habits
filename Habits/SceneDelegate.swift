@@ -18,6 +18,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let habitsViewController = HabitsViewController()
         habitsViewController.view.backgroundColor = .white
         let habitsViewNavigationController = UINavigationController(rootViewController: habitsViewController)
+        habitsViewNavigationController.navigationBar.prefersLargeTitles = true
 
         let infoViewController = InfoViewController()
         infoViewController.title = "Информация"
@@ -32,7 +33,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         infoViewNavigationController.tabBarItem.image = UIImage(named: "info.circle.fill")
 
         tabBarController.viewControllers = [habitsViewNavigationController, infoViewNavigationController]
-        tabBarController.tabBar.tintColor = #colorLiteral(red: 0.7004393935, green: 0.2260435522, blue: 0.8381720185, alpha: 1)
+        tabBarController.tabBar.tintColor = UIColor(named: "dPurple")
         tabBarController.selectedIndex = 0
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

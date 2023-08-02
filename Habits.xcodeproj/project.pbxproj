@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD980D532A66B32A00BB9EA8 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */; };
+		AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */; };
+		AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */; };
+		AD9AA0782A74F598001D0154 /* HeaderDetailHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */; };
 		ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */; };
 		ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */; };
 		ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */; };
-		ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F32A4DDC7D00942944 /* ViewController.swift */; };
 		ADC4D3F92A4DDC7D00942944 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */; };
 		ADC4D4042A4DDC9B00942944 /* CustomLaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D4032A4DDC9B00942944 /* CustomLaunchScreen.xib */; };
 		ADC4D4092A4DDE2200942944 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADC4D4062A4DDE2200942944 /* SFProText-Semibold.ttf */; };
@@ -19,14 +22,19 @@
 		ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */; };
 		ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */; };
 		ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D4102A4DF2D400942944 /* InfoViewController.swift */; };
+		ADE43ECB2A73CF3D00B2799C /* HabitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE43ECA2A73CF3D00B2799C /* HabitDetailsViewController.swift */; };
+		ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
+		AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
+		AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCollectionViewCell.swift; sourceTree = "<group>"; };
+		AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderDetailHabit.swift; sourceTree = "<group>"; };
 		ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditHabitVC.swift; sourceTree = "<group>"; };
 		ADC4D3EC2A4DDC7D00942944 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		ADC4D3F32A4DDC7D00942944 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADC4D3FD2A4DDC7D00942944 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADC4D4032A4DDC9B00942944 /* CustomLaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomLaunchScreen.xib; sourceTree = "<group>"; };
@@ -36,6 +44,8 @@
 		ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
 		ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewController.swift; sourceTree = "<group>"; };
 		ADC4D4102A4DF2D400942944 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		ADE43ECA2A73CF3D00B2799C /* HabitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewController.swift; sourceTree = "<group>"; };
+		ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingDaysCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +59,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD980D582A6A747600BB9EA8 /* cells */ = {
+			isa = PBXGroup;
+			children = (
+				AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */,
+				ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */,
+				AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */,
+				AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */,
+			);
+			path = cells;
+			sourceTree = "<group>";
+		};
+		AD980D5B2A6ADF4500BB9EA8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AD980D5C2A6ADF9000BB9EA8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				ADE43ECA2A73CF3D00B2799C /* HabitDetailsViewController.swift */,
+				ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */,
+				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
+				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		ADC4D3E32A4DDC7D00942944 = {
 			isa = PBXGroup;
 			children = (
@@ -70,11 +110,10 @@
 			children = (
 				ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */,
 				ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */,
-				ADC4D3F32A4DDC7D00942944 /* ViewController.swift */,
-				ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */,
-				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
-				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
-				ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */,
+				AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */,
+				AD980D5C2A6ADF9000BB9EA8 /* ViewControllers */,
+				AD980D5B2A6ADF4500BB9EA8 /* Model */,
+				AD980D582A6A747600BB9EA8 /* cells */,
 				ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */,
 				ADC4D4032A4DDC9B00942944 /* CustomLaunchScreen.xib */,
 				ADC4D3FD2A4DDC7D00942944 /* Info.plist */,
@@ -167,12 +206,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */,
-				ADC4D3F42A4DDC7D00942944 /* ViewController.swift in Sources */,
+				AD980D532A66B32A00BB9EA8 /* UIView+extension.swift in Sources */,
 				ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */,
 				ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */,
+				AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */,
 				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,
 				ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */,
+				ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
+				ADE43ECB2A73CF3D00B2799C /* HabitDetailsViewController.swift in Sources */,
+				AD9AA0782A74F598001D0154 /* HeaderDetailHabit.swift in Sources */,
+				AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

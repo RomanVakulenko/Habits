@@ -27,31 +27,29 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MyHabits" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZw-Wl-XUq">
-                        <rect key="frame" x="152.66666666666666" y="712" width="88" height="24"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launcherTitle" translatesAutoresizingMaskIntoConstraints="NO" id="VgJ-KX-GdF">
+                        <rect key="frame" x="152.66666666666666" y="718" width="88" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="88" id="37o-IZ-t33"/>
-                            <constraint firstAttribute="height" constant="24" id="vVK-b2-8Mo"/>
+                            <constraint firstAttribute="height" constant="24" id="8wH-cB-5ff"/>
+                            <constraint firstAttribute="width" constant="88" id="zSd-Lc-l8a"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
-                        <color key="textColor" red="0.63137254899999995" green="0.086274509799999996" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    </imageView>
                 </subviews>
                 <viewLayoutGuide key="safeArea" id="Nia-q1-8GH"/>
                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 <constraints>
+                    <constraint firstItem="VgJ-KX-GdF" firstAttribute="centerX" secondItem="kOP-Ks-h98" secondAttribute="centerX" id="Jxt-Fj-Xpf"/>
                     <constraint firstItem="pMK-E1-nQF" firstAttribute="centerY" secondItem="kOP-Ks-h98" secondAttribute="centerY" id="QIm-rm-oMS"/>
-                    <constraint firstItem="DZw-Wl-XUq" firstAttribute="top" secondItem="kOP-Ks-h98" secondAttribute="top" constant="712" id="ogn-kh-1RG"/>
-                    <constraint firstItem="DZw-Wl-XUq" firstAttribute="centerX" secondItem="kOP-Ks-h98" secondAttribute="centerX" id="ok4-OT-xAc"/>
+                    <constraint firstItem="Nia-q1-8GH" firstAttribute="bottom" secondItem="VgJ-KX-GdF" secondAttribute="bottom" constant="76" id="bNP-wh-tZn"/>
                     <constraint firstItem="pMK-E1-nQF" firstAttribute="centerX" secondItem="kOP-Ks-h98" secondAttribute="centerX" id="v9I-Z7-vnb"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-39" y="-73"/>
+            <point key="canvasLocation" x="-40.458015267175568" y="-73.239436619718319"/>
         </viewController>
     </objects>
     <resources>
         <image name="AppIcon" width="128" height="128"/>
+        <image name="launcherTitle" width="86.5" height="18.5"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
