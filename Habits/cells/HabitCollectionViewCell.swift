@@ -10,7 +10,7 @@ import UIKit
 final class HabitCollectionViewCell: UICollectionViewCell {
 
     private var habit: Habit!
-    private var stateBntTapClosure: (() -> Void)! //чтобы мы могли снаружи перезагружать табличку
+    private var stateBntTapClosure: (() -> Void)! //чтобы обновлять табличку и показывать нажатие сразу после нажатия
 
     private let habitView: UIView = {
         let whiteView = UIView()
@@ -95,7 +95,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         checkMarkImageView.addGestureRecognizer(tapToCheckMark)
     }
 
-    func setup(habit: Habit, closure: @escaping () -> Void){
+    func setup(habit: Habit, closure: @escaping () -> Void){ //closure выступит в коллекции как обработчик завершения нажатия
         self.habit = habit
         self.stateBntTapClosure = closure
 
