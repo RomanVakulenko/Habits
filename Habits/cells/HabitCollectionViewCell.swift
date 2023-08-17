@@ -10,7 +10,7 @@ import UIKit
 final class HabitCollectionViewCell: UICollectionViewCell {
 
     private var habit: Habit!
-    private var stateBntTapClosure: (() -> Void)! //чтобы обновлять табличку и показывать нажатие сразу после нажатия
+    private var stateBntTapClosure: (() -> Void)! //0. чтобы обновлять табличку и показывать нажатие сразу после нажатия
 
     private let habitView: UIView = {
         let whiteView = UIView()
@@ -95,9 +95,9 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         checkMarkImageView.addGestureRecognizer(tapToCheckMark)
     }
 
-    func setup(habit: Habit, closure: @escaping () -> Void){ //closure выступит в коллекции как обработчик завершения нажатия
+    func setup(habit: Habit, closure: @escaping () -> Void){ // замыкание задерживается в памяти на время и вызывается после того как функция вернула значение.
         self.habit = habit
-        self.stateBntTapClosure = closure
+        self.stateBntTapClosure = closure //2. closure вызывается после того как функция вернула значение.
 
         nameOfHabit.text = habit.name
         nameOfHabit.textColor = habit.color
@@ -163,7 +163,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
 //            checkMarkButton.setImage(checkedButton, for: .normal)
 //            checkMarkImageView.image = UIImage.init(systemName: "checkmark.circle.fill")
             HabitsStore.shared.track(habit)
-            self.stateBntTapClosure()
+            self.stateBntTapClosure() //2. вызываем клоужер 
         }
     }
 
