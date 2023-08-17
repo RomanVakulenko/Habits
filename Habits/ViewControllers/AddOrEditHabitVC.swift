@@ -16,6 +16,10 @@ final class AddOrEditHabitVC: UIViewController {
     var habit: Habit?
     var habitState = HabitVCState.create
 
+    private lazy var habitStore: HabitsStore = {
+        return HabitsStore.shared
+    }()
+
     private var currentTitle = ""
     private var currentColor = UIColor.systemBlue
     private var currentDate = Date()
@@ -75,7 +79,7 @@ final class AddOrEditHabitVC: UIViewController {
         return time
     }()
 
-    private let preTimeTextHabit: UILabel = {
+    private let habitTimeLabelText: UILabel = {
         let timeSet = UILabel()
         timeSet.translatesAutoresizingMaskIntoConstraints = false
         timeSet.font = UIFont(name: "SFProText-Regular", size: 17)
@@ -123,7 +127,7 @@ final class AddOrEditHabitVC: UIViewController {
         view.backgroundColor = UIColor(named: "dBackground")
 
         if let habit { //до установки элементов интерфейса и для экрана "Править"
-            currentDate = habit.time
+            currentDate = habit.date
             currentColor = habit.color
             currentTitle = habit.name
         }
@@ -168,7 +172,7 @@ final class AddOrEditHabitVC: UIViewController {
     //MARK: - private methods
 
     private func layout() {
-        [nameTitleHabit, textTitleHabit, colorTitleHabit, pickerButton, timeTitleHabit, preTimeTextHabit, pickedHabitTime, datePicker, deleteButton].forEach { baseView.addSubview($0) }
+        [nameTitleHabit, textTitleHabit, colorTitleHabit, pickerButton, timeTitleHabit, habitTimeLabelText, pickedHabitTime, datePicker, deleteButton].forEach { baseView.addSubview($0) }
         view.addSubview(baseView)
 
         NSLayoutConstraint.activate([
@@ -193,15 +197,15 @@ final class AddOrEditHabitVC: UIViewController {
             timeTitleHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             timeTitleHabit.topAnchor.constraint(equalTo: pickerButton.bottomAnchor, constant: 15),
 
-            preTimeTextHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-            preTimeTextHabit.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
+            habitTimeLabelText.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
+            habitTimeLabelText.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
 
-            pickedHabitTime.leadingAnchor.constraint(equalTo: preTimeTextHabit.trailingAnchor),
+            pickedHabitTime.leadingAnchor.constraint(equalTo: habitTimeLabelText.trailingAnchor),
             pickedHabitTime.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
 
             datePicker.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
-            datePicker.topAnchor.constraint(equalTo: preTimeTextHabit.bottomAnchor, constant: 15),
+            datePicker.topAnchor.constraint(equalTo: habitTimeLabelText.bottomAnchor, constant: 15),
 
             deleteButton.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             deleteButton.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
@@ -233,11 +237,12 @@ final class AddOrEditHabitVC: UIViewController {
             if let h {
                 h.name = currentTitle
                 h.color = currentColor
-                h.time = currentDate
+                h.date = currentDate
             }
             let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
             navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
         }
+        habitStore.save()
     }
 
     @objc func pickColor(_ sender: UIButton) {

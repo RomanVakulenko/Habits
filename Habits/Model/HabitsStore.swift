@@ -1,10 +1,3 @@
-//
-//  HabitsStore.swift
-//  Habits
-//
-//  Created by Roman Vakulenko on 29.06.2023.
-//
-
 import UIKit
 
 /// Класс для хранения данных о привычке.
@@ -14,7 +7,7 @@ public final class Habit: Codable {
     public var name: String
 
     /// Время выполнения привычки.
-    public var time: Date
+    public var date: Date
 
     /// Даты выполнения привычки.
     public var trackDates: [Date]
@@ -39,7 +32,7 @@ public final class Habit: Codable {
 
     /// Описание времени выполнения привычки.
     public var dateString: String {
-        "Каждый день в " + dateFormatter.string(from: time)
+        "Каждый день в " + dateFormatter.string(from: date)
     }
 
     /// Показывает, была ли сегодня добавлена привычка.
@@ -66,7 +59,7 @@ public final class Habit: Codable {
 
     public init(name: String, date: Date, trackDates: [Date] = [], color: UIColor) {
         self.name = name
-        self.time = date
+        self.date = date
         self.trackDates = trackDates
         var r: CGFloat = 0
         var g: CGFloat = 0
@@ -84,7 +77,7 @@ extension Habit: Equatable {
 
     public static func == (lhs: Habit, rhs: Habit) -> Bool {
         lhs.name == rhs.name &&
-        lhs.time == rhs.time &&
+        lhs.date == rhs.date &&
         lhs.trackDates == rhs.trackDates &&
         lhs.r == rhs.r &&
         lhs.g == rhs.g &&
@@ -188,10 +181,12 @@ public final class HabitsStore {
             userDefaults.setValue(startDate, forKey: "start_date")
         }
         guard let data = userDefaults.data(forKey: "habits") else {
+            assertionFailure("не смог достать дату по ключу")
             return
         }
         do {
             habits = try decoder.decode([Habit].self, from: data)
+            print(habits)
         }
         catch {
             print("Ошибка декодирования сохранённых привычек", error)
