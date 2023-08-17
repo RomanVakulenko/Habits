@@ -31,9 +31,6 @@ final class HabitsViewController: UIViewController {
         super.viewDidLoad()
         layout()
         navigationItem.title = "Сегодня"
-        store.habits.removeAll()
-        store.habits.append(Habit(name: "Приседания в перерывах", date: Date(), color: .systemBlue))
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +61,7 @@ final class HabitsViewController: UIViewController {
 
     @objc func addHabit() {
         let addOrEditHabitVC = AddOrEditHabitVC()
+        
         let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.
         navController.view.backgroundColor = UIColor(named: "dBackground")
         navController.modalTransitionStyle = .coverVertical
@@ -99,8 +97,8 @@ extension HabitsViewController: UICollectionViewDataSource {
             return cell
         } else {
             guard let habitCell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as? HabitCollectionViewCell else { return UICollectionViewCell()}
-            habitCell.setup(habit: store.habits[indexPath.item]){
-                collectionView.reloadData()
+            habitCell.setup(habit: store.habits[indexPath.item]){ //1. после создания ячеек в определенный момент(tapAtButton - см. cell) обновим коллекцию
+                collectionView.reloadData() //  escaping closure
             }
             return habitCell
         }
