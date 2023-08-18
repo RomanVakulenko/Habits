@@ -1,5 +1,5 @@
 //
-//  HabitDetailsViewController.swift
+//  TrackHabitViewController.swift
 //  Habits
 //
 //  Created by Roman Vakulenko on 28.07.2023.
@@ -7,12 +7,19 @@
 
 import UIKit
 
-final class HabitDetailsViewController: UIViewController {
+final class TrackHabitViewController: UIViewController {
 
     var indexOfHabit = Int()
+
+    // MARK: - Private properties
     private let store = HabitsStore.shared
+
     private let datesArr = HabitsStore.shared.dates
 
+    private var viewModel: TrackViewModel
+
+    
+    // MARK: - Subviews
     private lazy var detailsTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -22,6 +29,19 @@ final class HabitDetailsViewController: UIViewController {
         return table
     }()
 
+
+    // MARK: - Init
+    init(viewModel: TrackViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "dBackground")
@@ -33,8 +53,8 @@ final class HabitDetailsViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
     }
 
+    // MARK: - Private methods
 
-// MARK: - Private
     private func navBarSettings(){
         let backButton = UIBarButtonItem(title: "Сегодня", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
@@ -63,7 +83,7 @@ final class HabitDetailsViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 
-extension HabitDetailsViewController: UITableViewDataSource {
+extension TrackHabitViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -90,7 +110,7 @@ extension HabitDetailsViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension HabitDetailsViewController: UITableViewDelegate {
+extension TrackHabitViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HeaderDetailHabit()

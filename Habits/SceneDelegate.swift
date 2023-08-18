@@ -10,11 +10,22 @@ import UIKit
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var mainCoordinator: CoordinatorProtocol?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = scene as? UIWindowScene else { return }
-        let window = UIWindow(windowScene: scene)
 
+        let window = UIWindow(windowScene: scene)
+        let mainCoordinator = MainCoordinator()
+        window.rootViewController = mainCoordinator.start()
+        
+        self.window = window
+        self.mainCoordinator = mainCoordinator
+        window.makeKeyAndVisible()
+
+
+
+        
         let habitsViewController = HabitsViewController()
         habitsViewController.view.backgroundColor = .white
         let habitsViewNavigationController = UINavigationController(rootViewController: habitsViewController)
@@ -36,8 +47,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.tintColor = UIColor(named: "dPurple")
         tabBarController.selectedIndex = 0
         window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
-        self.window = window
+
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

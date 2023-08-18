@@ -9,6 +9,10 @@ import UIKit
 
 final class InfoViewController: UIViewController {
 
+    // MARK: - Private properties
+    private var viewModel: InfoViewModel
+
+    // MARK: - Subviews
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,19 +128,33 @@ final class InfoViewController: UIViewController {
         return stack
     }()
 
+    // MARK: - Init
+    init(viewModel: InfoViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        self.title = "Информация"
+        setupView()
         layout()
     }
 
-    private func layout() {
+    // MARK: - Private methods
+    private func setupView() {
+        view.backgroundColor = .white
+        title = "Информация"
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(textTitle)
         contentView.addSubview(stackView)
-
+    }
+    private func layout() {
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -158,8 +176,6 @@ final class InfoViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 62),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
-
         ])
     }
 
