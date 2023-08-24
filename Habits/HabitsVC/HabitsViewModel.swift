@@ -19,9 +19,10 @@ final class HabitsViewModel {
     }
 
     // MARK: - Public properties
-    var habitsModel: [Habit] = []
+    private(set) var habitsModel: [Habit] = []
+
     var trackModel: [Date] = HabitsStore.shared.dates
-    ///благодаря клоужеру мы bindимся (в связи - bind вся суть MVVM )
+
     var closureChangeState: ((State) -> Void)?
 
     // MARK: - Private properties
@@ -39,7 +40,7 @@ final class HabitsViewModel {
     }
 
     // MARK: - Public methods
-    func requestHabits() {
+    func getHabits() {
         state = .loading
         mockNetworkAPI { habits in
             self.habitsModel = habits
@@ -49,7 +50,9 @@ final class HabitsViewModel {
 
     func didTapCell(at indexPath: IndexPath) {
         let model = trackModel[indexPath.item] //если бы даты не сохранялись бы в UserDefaults, то откуда бы мы тогда брали бы модель? Тоже из сети?
-        coordinator?.pushTrackVC(model: model) //в TrackVC var model: Date
+        coordinator?.pushTrackVC(model: model,
+                                 delegate: self,
+                                 indexPath: indexPath) 
     }
 
 
@@ -60,4 +63,12 @@ final class HabitsViewModel {
             completion(model)
         }
     }
+}
+
+// MARK: - ExtensionDelegate
+extension HabitsViewModel: AddOrEditHabitDelegate {
+    func passAddOrEdit(habitName: String, color: UIColor, time: Date, at indexPath: IndexPath) {
+        state = .reloadItems(at: [indexPath])
+    }
+
 }

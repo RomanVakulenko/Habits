@@ -20,7 +20,7 @@ final class TrackHabitViewController: UIViewController {
 
     
     // MARK: - Subviews
-    private lazy var detailsTableView: UITableView = {
+    private lazy var datesTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(TrackingDaysCell.self, forCellReuseIdentifier: TrackingDaysCell.identifier)
@@ -45,15 +45,21 @@ final class TrackHabitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "dBackground")
+        setupView()
         layout()
         navBarSettings()
+        viewModel.getDates()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.largeTitleDisplayMode = .never
     }
 
     // MARK: - Private methods
+    private func setupView() {
+        view.addSubview(datesTableView)
+    }
 
     private func navBarSettings(){
         let backButton = UIBarButtonItem(title: "Сегодня", style: .plain, target: nil, action: nil)
@@ -63,40 +69,49 @@ final class TrackHabitViewController: UIViewController {
     }
 
     private func layout(){
-        view.addSubview(detailsTableView)
-
         NSLayoutConstraint.activate([
-            detailsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            detailsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            detailsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            detailsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            datesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            datesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            datesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            datesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 
+    private func bindViewModel() {
+        viewModel.closureChangeState = { [weak self] state in
+            guard let self else {return}
+
+            switch state {
+            case .none:
+                ()
+            case .didGetDates:
+                datesTableView.reloadData()
+            }
+        }
+    }
+    
     @objc func editHabit(_ sender: UIBarButtonItem){
-        let editVC = AddOrEditHabitVC()
-        editVC.habit = store.habits[indexOfHabit]
-        editVC.habitState = .edit
-        navigationController?.pushViewController(editVC, animated: true)
+//        let editVC = AddOrEditHabitVC()
+//        editVC.habit = store.habits[indexOfHabit]
+//        editVC.habitState = .edit
+//        navigationController?.pushViewController(editVC, animated: true)
     }
 }
+
 
 // MARK: - UITableViewDataSource
 
 extension TrackHabitViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datesArr.count
+        return viewModel.trackModel.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TrackingDaysCell.identifier, for: indexPath) as! TrackingDaysCell
 
         cell.setup(from: datesArr, at: indexPath)
+
         var fallingDates = [Date]() //dates.reversed().map { $0 } //развернутый массив дат
         for i in datesArr {
             fallingDates.insert(i, at: 0)
@@ -108,6 +123,7 @@ extension TrackHabitViewController: UITableViewDataSource {
         return cell
     }
 }
+
 
 // MARK: - UITableViewDelegate
 extension TrackHabitViewController: UITableViewDelegate {

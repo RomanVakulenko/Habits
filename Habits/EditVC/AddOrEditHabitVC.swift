@@ -12,12 +12,19 @@ enum HabitVCState {
 }
 
 final class AddOrEditHabitVC: UIViewController {
-    
-    var habit: Habit?
-    var habitState = HabitVCState.create
+    // MARK: - Public properties
+//    var habitModel: Habit? //private ?
+    var habitState = HabitVCState.create //private ?
 
+    // MARK: - Private properties
     private lazy var habitStore: HabitsStore = {
         return HabitsStore.shared
+    }()
+
+    private var viewModel: AddOrEditViewModel
+
+    private lazy var model: Habit = { [unowned self] in
+        self.viewModel.habitModel
     }()
 
     private var currentTitle = ""
@@ -120,32 +127,22 @@ final class AddOrEditHabitVC: UIViewController {
     }()
 
 
+    // MARK: - Init
+    init(viewModel: AddOrEditViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        createDatePickerLabel()
-        view.backgroundColor = UIColor(named: "dBackground")
-
-        if let habit { //до установки элементов интерфейса и для экрана "Править"
-            currentDate = habit.date
-            currentColor = habit.color
-            currentTitle = habit.name
-        }
+        setupView()
         layout()
-        textTitleHabit.delegate = self
-
-        if habitState == .edit {
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-            textTitleHabit.text = currentTitle //1h16min
-            textTitleHabit.textColor = currentColor
-            pickerButton.tintColor = currentColor //для "Править" если цвет был - то оставляем
-            datePicker.date = currentDate
-            pickedHabitTime.text = formatter.string(from: currentDate)
-            pickedHabitTime.textColor = UIColor(named: "dPurple")
-            colorPicker.selectedColor = currentColor
-            deleteButton.isHidden = false
-        }
+        bindViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -168,13 +165,15 @@ final class AddOrEditHabitVC: UIViewController {
             textTitleHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
         }
     }
-    
-    //MARK: - private methods
 
-    private func layout() {
+    // MARK: - Private methods
+    private func setupView() {
         [nameTitleHabit, textTitleHabit, colorTitleHabit, pickerButton, timeTitleHabit, habitTimeLabelText, pickedHabitTime, datePicker, deleteButton].forEach { baseView.addSubview($0) }
         view.addSubview(baseView)
+        view.backgroundColor = UIColor(named: "dBackground")
+    }
 
+    private func layout() {
         NSLayoutConstraint.activate([
             baseView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             baseView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -215,6 +214,46 @@ final class AddOrEditHabitVC: UIViewController {
         ])
     }
 
+    private func doPreSetIfHabitWasCreated() {
+        if model.name != "" { //до установки элементов интерфейса и для экрана "Править"
+            currentDate = model.date
+            currentColor = model.color
+            currentTitle = model.name
+        }
+
+        textTitleHabit.delegate = self
+
+        if habitState == .edit {
+            let formatter = DateFormatter()
+            formatter.timeStyle = .short
+            textTitleHabit.text = currentTitle //1h16min
+            textTitleHabit.textColor = currentColor
+            pickerButton.tintColor = currentColor //для "Править" если цвет был - то оставляем
+            datePicker.date = currentDate
+            pickedHabitTime.text = formatter.string(from: currentDate)
+            pickedHabitTime.textColor = UIColor(named: "dPurple")
+            colorPicker.selectedColor = currentColor
+            deleteButton.isHidden = false
+        }
+    }
+
+
+    private func bindViewModel() {
+        viewModel.closureChangeState = { [weak self] state in
+            guard let self else {return}
+
+            switch state {
+            case .none:
+                ()
+            case .add:
+                ()
+            case .edit:
+                doPreSetIfHabitWasCreated()
+            }
+        }
+    }
+
+
     @objc func backToHabitsViewController() {
         if habitState == .create {
             dismiss(animated: true)
@@ -232,7 +271,7 @@ final class AddOrEditHabitVC: UIViewController {
             dismiss(animated: true) // или navigationController?.popViewController(animated: true)
         } else if habitState == .edit {
             let h = HabitsStore.shared.habits.first {
-                $0 == habit
+                $0 == model
             }
             if let h {
                 h.name = currentTitle
@@ -258,11 +297,11 @@ final class AddOrEditHabitVC: UIViewController {
     }
 
     @objc func showDeleteAlert(_ sender: UIButton) {
-        if let habit {
+        if model.name != "" {
             let alert = UIAlertController(
                 title: "Удалить привычку",
                 message: """
-                         Вы хотите удалить привычку "\(habit.name)?"
+                         Вы хотите удалить привычку "\(model.name)?"
                          """,
                 preferredStyle: .alert
             )
@@ -270,7 +309,7 @@ final class AddOrEditHabitVC: UIViewController {
             alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
                 guard let self else { return }
                 HabitsStore.shared.habits.removeAll {
-                    $0.name == self.habit?.name //или $0 == self.habit
+                    $0.name == self.model.name //или $0 == self.habit
                 }
                 let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
                 navigationController?.popToViewController(vcs[vcs.count-3], animated: true)

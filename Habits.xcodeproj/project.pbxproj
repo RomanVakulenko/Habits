@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD1B7D382A9658D0008E0098 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D372A9658D0008E0098 /* TrackViewModel.swift */; };
+		AD1B7D3B2A965902008E0098 /* AddOrEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D3A2A965902008E0098 /* AddOrEditViewModel.swift */; };
 		AD3EA3BE2A8E40490095E372 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3BD2A8E40490095E372 /* MainCoordinator.swift */; };
 		AD3EA3C02A8E42270095E372 /* HabitsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3BF2A8E42270095E372 /* HabitsCoordinator.swift */; };
 		AD3EA3C32A8E44D10095E372 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3C22A8E44D10095E372 /* CoordinatorProtocol.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD1B7D372A9658D0008E0098 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
+		AD1B7D3A2A965902008E0098 /* AddOrEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditViewModel.swift; sourceTree = "<group>"; };
 		AD3EA3BD2A8E40490095E372 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		AD3EA3BF2A8E42270095E372 /* HabitsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsCoordinator.swift; sourceTree = "<group>"; };
 		AD3EA3C22A8E44D10095E372 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
@@ -73,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD1B7D392A9658E3008E0098 /* EditVC */ = {
+			isa = PBXGroup;
+			children = (
+				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
+				AD1B7D3A2A965902008E0098 /* AddOrEditViewModel.swift */,
+			);
+			path = EditVC;
+			sourceTree = "<group>";
+		};
 		AD3EA3C12A8E44A30095E372 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,13 +135,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		AD980D5C2A6ADF9000BB9EA8 /* ViewControllers */ = {
+		AD980D5C2A6ADF9000BB9EA8 /* TrackVC */ = {
 			isa = PBXGroup;
 			children = (
 				ADE43ECA2A73CF3D00B2799C /* TrackHabitViewController.swift */,
-				ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */,
+				AD1B7D372A9658D0008E0098 /* TrackViewModel.swift */,
 			);
-			path = ViewControllers;
+			path = TrackVC;
 			sourceTree = "<group>";
 		};
 		ADC4D3E32A4DDC7D00942944 = {
@@ -156,7 +169,8 @@
 				AD3EA3C12A8E44A30095E372 /* Coordinators */,
 				AD3EA3C62A8E47930095E372 /* HabitsVC */,
 				AD3EA3C92A8E6AE60095E372 /* InfoVC */,
-				AD980D5C2A6ADF9000BB9EA8 /* ViewControllers */,
+				AD980D5C2A6ADF9000BB9EA8 /* TrackVC */,
+				AD1B7D392A9658E3008E0098 /* EditVC */,
 				AD980D5B2A6ADF4500BB9EA8 /* Model */,
 				AD980D582A6A747600BB9EA8 /* cells */,
 				ADC4D3F82A4DDC7D00942944 /* Assets.xcassets */,
@@ -250,6 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD1B7D3B2A965902008E0098 /* AddOrEditViewModel.swift in Sources */,
 				AD3EA3CB2A8E6B2A0095E372 /* InfoViewModel.swift in Sources */,
 				ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */,
 				AD3EA3CD2A8E75F60095E372 /* InfoCoordinator.swift in Sources */,
@@ -266,6 +281,7 @@
 				ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
 				ADE43ECB2A73CF3D00B2799C /* TrackHabitViewController.swift in Sources */,
+				AD1B7D382A9658D0008E0098 /* TrackViewModel.swift in Sources */,
 				AD9AA0782A74F598001D0154 /* HeaderDetailHabit.swift in Sources */,
 				AD3EA3C02A8E42270095E372 /* HabitsCoordinator.swift in Sources */,
 				AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */,

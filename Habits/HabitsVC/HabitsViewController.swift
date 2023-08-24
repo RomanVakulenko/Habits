@@ -48,6 +48,8 @@ final class HabitsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstaints()
+        bindViewModel()
+        viewModel.getHabits()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -66,6 +68,7 @@ final class HabitsViewController: UIViewController {
     // MARK: - Private methods
     private func setupView() {
         view.addSubview(collectionView)
+        view.backgroundColor = UIColor(named: "dBackground")
         navigationItem.title = "Сегодня"
     }
 
@@ -101,14 +104,14 @@ final class HabitsViewController: UIViewController {
 
     // MARK: - Actions
     @objc func addHabit() {
-        let addOrEditHabitVC = AddOrEditHabitVC()
-        
-        let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.
-        navController.view.backgroundColor = UIColor(named: "dBackground")
-        navController.modalTransitionStyle = .coverVertical
-        navController.modalPresentationStyle = .fullScreen
-        navController.navigationBar.tintColor = UIColor(named: "dPurple")
-        present(navController, animated: true)
+//        let addOrEditHabitVC = AddOrEditHabitVC(viewModel: <#AddOrEditViewModel#>)
+//
+//        let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.
+//        navController.view.backgroundColor = UIColor(named: "dBackground")
+//        navController.modalTransitionStyle = .coverVertical
+//        navController.modalPresentationStyle = .fullScreen
+//        navController.navigationBar.tintColor = UIColor(named: "dPurple")
+//        present(navController, animated: true)
     }
     
 }
@@ -147,10 +150,7 @@ extension HabitsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let habitDetailsVC = HabitDetailsViewController()
-        navigationController?.pushViewController(habitDetailsVC, animated: true)
-        habitDetailsVC.title = HabitsStore.shared.habits[indexPath.row].name
-        habitDetailsVC.indexOfHabit = indexPath.row
+        viewModel.didTapCell(at: indexPath)
     }
 }
 

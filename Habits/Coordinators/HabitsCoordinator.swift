@@ -25,17 +25,29 @@ final class HabitsCoordinator {
     private func makeHabitsVC() -> UIViewController {
         let viewModel = HabitsViewModel(coordinator: self)
         let habitsVC =  HabitsViewController(viewModel: viewModel)
-        let navController = UINavigationController(rootViewController: habitsVC)
-        navigationController = navController
+        let habitsNavController = UINavigationController(rootViewController: habitsVC)
+        navigationController = habitsNavController
+        navigationController.title = "Сегодня"
+        navigationController.navigationBar.backgroundColor = UIColor(named: "dBackground")
         return navigationController
     }
 
-    private func makeTrackVC(model: Date) -> UIViewController {
-        let viewModel = ...
+    private func makeTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) -> UIViewController {
+        let viewModel = TrackViewModel(coordinator: self)
         let trackVC = TrackHabitViewController(viewModel: viewModel)
-        let navController = UINavigationController(rootViewController: trackVC)
-        navigationController = navController
-        return navigationController
+        trackVC.title = HabitsStore.shared.habits[indexPath.row].name
+        return trackVC
+    }
+
+    private func makeAddOrEditVC(model: Habit, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) -> UIViewController {
+        let viewModel = AddOrEditViewModel(
+            coordinator: self,
+            model: model,
+            delegate: delegate,
+            indexPath: indexPath
+        )
+        let addOrEditVC = AddOrEditHabitVC(viewModel: viewModel)
+        return addOrEditVC
     }
 }
 
@@ -46,11 +58,22 @@ extension HabitsCoordinator: CoordinatorProtocol {
         return habitVC
     }
 
-    func pushTrackVC(model: Date) {
-        let vc = makeTrackVC(model: model)
+    func pushTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) {
+        let vc = makeTrackVC(
+            model: model,
+            delegate: delegate,
+            indexPath: indexPath
+        )
         navigationController.pushViewController(vc, animated: true)
-
     }
 
+    func pushAddOrEditVC(model: Habit, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) {
+        let vc = makeAddOrEditVC(
+            model: model,
+            delegate: delegate,
+            indexPath: indexPath
+        )
+        navigationController.pushViewController(vc, animated: true)
+    }
 
 }

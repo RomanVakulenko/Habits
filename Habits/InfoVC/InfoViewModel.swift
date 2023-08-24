@@ -18,7 +18,7 @@ final class InfoViewModel {
     var closureChangeState: ((InfoState) -> Void)?
 
     // MARK: - Private properties
-    private var infoModel: [String]
+    private var infoModel: [String] = []
 
     private weak var coordinator: CoordinatorProtocol?
 
@@ -34,7 +34,7 @@ final class InfoViewModel {
     }
 
     // MARK: - Private methods
-    private func didTapEditHabit() {
+    private func didTapTabBar() {
         
     }
 }
