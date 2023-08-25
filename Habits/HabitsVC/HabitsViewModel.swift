@@ -26,7 +26,7 @@ final class HabitsViewModel {
     var closureChangeState: ((State) -> Void)?
 
     // MARK: - Private properties
-    private weak var coordinator: HabitsCoordinator?
+    private weak var coordinator: HabitsCoordinatorProtocol?
 
     private var state: State = .none {
         didSet {
@@ -35,7 +35,7 @@ final class HabitsViewModel {
     }
 
     // MARK: - Init
-    init(coordinator: HabitsCoordinator?) {
+    init(coordinator: HabitsCoordinatorProtocol?) {
         self.coordinator = coordinator
     }
 

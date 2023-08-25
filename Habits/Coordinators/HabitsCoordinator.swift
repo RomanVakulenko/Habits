@@ -7,17 +7,22 @@
 
 import UIKit
 
+protocol HabitsCoordinatorProtocol: AnyObject {
+    func pushTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath)
+    func pushAddOrEditVC(model: Habit, delegate: AddOrEditHabitDelegate, indexPath: IndexPath)
+}
+
 final class HabitsCoordinator {
 
     // MARK: - Private properties
     private var navigationController: UINavigationController
 
-    private weak var parentCoordinator: TabBarCoordinator?
+    //    private weak var parentCoordinator: TabBarCoordinator? // нужно если мы имеем логин флоу
 
     // MARK: - Init
-    init(navigationController: UINavigationController, parentCoordinator: TabBarCoordinator) {
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.parentCoordinator = parentCoordinator
+        //        self.parentCoordinator = parentCoordinator // нужно если мы имеем логин флоу
     }
 
     // MARK: - Private methods
@@ -27,8 +32,7 @@ final class HabitsCoordinator {
         let habitsVC =  HabitsViewController(viewModel: viewModel)
         let habitsNavController = UINavigationController(rootViewController: habitsVC)
         navigationController = habitsNavController
-        navigationController.title = "Сегодня"
-        navigationController.navigationBar.backgroundColor = UIColor(named: "dBackground")
+        
         return navigationController
     }
 
@@ -51,13 +55,18 @@ final class HabitsCoordinator {
     }
 }
 
+// MARK: - CoordinatorProtocol
 extension HabitsCoordinator: CoordinatorProtocol {
 
     func start() -> UIViewController {
         let habitVC = makeHabitsVC()
         return habitVC
     }
+}
 
+
+// MARK: - HabitsCoordinatorProtocol
+extension HabitsCoordinator: HabitsCoordinatorProtocol {
     func pushTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) {
         let vc = makeTrackVC(
             model: model,
@@ -75,5 +84,6 @@ extension HabitsCoordinator: CoordinatorProtocol {
         )
         navigationController.pushViewController(vc, animated: true)
     }
-
 }
+
+

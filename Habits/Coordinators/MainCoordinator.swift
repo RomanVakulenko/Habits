@@ -7,8 +7,9 @@
 
 import UIKit
 
-protocol MainCoordinatorProtocol: CoordinatorProtocol {
-}
+//protocol MainCoordinatorProtocol: CoordinatorProtocol { // нужно если мы имеем логин флоу
+//    func switchFlow()
+//}
 
 final class MainCoordinator {
 
@@ -19,8 +20,8 @@ final class MainCoordinator {
     // MARK: - Private methods
     private func makeTabBarCoordinator() -> CoordinatorProtocol {
         let tabBarCoordinator = TabBarCoordinator(
-            tabBarController: UITabBarController(),
-            parentCoordinator: self
+            tabBarController: UITabBarController()
+//            parentCoordinator: self // нужно если мы имеем логин флоу
         )
         return tabBarCoordinator
     }
@@ -30,7 +31,7 @@ final class MainCoordinator {
         childCoordinators.append(coordinator)
     }
 
-    private func removeChildCoordinator(_ coordinator: CoordinatorProtocol) { //зачем в MainCoordinator метод removeChildCoordinator ?
+    private func removeChildCoordinator(_ coordinator: CoordinatorProtocol) { // нужно если мы имеем логин флоу  removeChildCoordinator ?
         childCoordinators.removeAll(where: { $0 === coordinator })
     }
 
@@ -45,3 +46,10 @@ extension MainCoordinator: CoordinatorProtocol {
         return tabBarCoordinator.start()
     }
 }
+
+
+//extension MainCoordinator: MainCoordinatorProtocol { // нужно если мы имеем логин флоу
+//    func switchFlow() {
+//        ()
+//    }
+//}

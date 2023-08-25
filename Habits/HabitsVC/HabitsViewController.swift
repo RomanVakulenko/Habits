@@ -69,7 +69,16 @@ final class HabitsViewController: UIViewController {
     private func setupView() {
         view.addSubview(collectionView)
         view.backgroundColor = UIColor(named: "dBackground")
+        title = "Сегодня"
         navigationItem.title = "Сегодня"
+        navigationController?.navigationBar.backgroundColor = UIColor(named: "dBackground")
+        navigationController?.tabBarItem.image = UIImage(named: "habits_tab_icon")
+
+        if let tabBarItem1 = self.tabBarController?.tabBar.items?[1] {
+                    tabBarItem1.title = "Информация"
+                    tabBarItem1.image = UIImage(systemName: "info.circle")
+                    tabBarItem1.selectedImage = UIImage(named: "info.circle.fill")
+                }
     }
 
     private func setupConstaints() {
@@ -104,7 +113,7 @@ final class HabitsViewController: UIViewController {
 
     // MARK: - Actions
     @objc func addHabit() {
-        #error("1.как настроить "+" и "Править" кнопки, 2.как отобразить добавленную привычку? 3.как сделать галочку по затреканной в правильный день привычке(не те дни показывает), 4.как сделать табБар")
+//        #error("1.как настроить "+" и "Править" кнопки, 2.как отобразить добавленную привычку? 3.как сделать галочку по затреканной в правильный день привычке(не те дни показывает), 4.как сделать табБар")
 //        let addOrEditHabitVC = AddOrEditHabitVC(viewModel: <#AddOrEditViewModel#>)
 //
 //        let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.

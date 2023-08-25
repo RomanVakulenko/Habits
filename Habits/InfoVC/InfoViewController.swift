@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol InfoVCTabBarProtocol: AnyObject {
+    func showInfoTabBarItem()
+}
+
+
 final class InfoViewController: UIViewController {
 
     // MARK: - Private properties
@@ -154,6 +159,7 @@ final class InfoViewController: UIViewController {
         contentView.addSubview(textTitle)
         contentView.addSubview(stackView)
     }
+
     private func layout() {
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -180,3 +186,11 @@ final class InfoViewController: UIViewController {
     }
 
 }
+
+extension InfoViewController: InfoVCTabBarProtocol{
+    func showInfoTabBarItem() {
+        navigationController?.tabBarItem.image = UIImage(named: "info.circle.fill")
+        navigationController?.tabBarItem.isEnabled = true
+    }
+}
+

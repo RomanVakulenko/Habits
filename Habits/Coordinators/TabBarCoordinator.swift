@@ -14,26 +14,22 @@ final class TabBarCoordinator {
 
     private var tabBarController: UITabBarController
     
-    private weak var parentCoordinator: CoordinatorProtocol?
-
-
+//    private weak var parentCoordinator: CoordinatorProtocol? // нужно если мы имеем логин флоу
 
     // MARK: - Init
-    init(tabBarController: UITabBarController, parentCoordinator: CoordinatorProtocol?) {
+    init(tabBarController: UITabBarController) {
         self.tabBarController = tabBarController
-        self.parentCoordinator = self
+//        self.parentCoordinator = self //нужно если мы имеем логин флоу
     }
 
     // MARK: - Private methods
     private func makeHabitsCoordinator() -> CoordinatorProtocol {
-        let coordinator = HabitsCoordinator(navigationController: UINavigationController(),
-                                            parentCoordinator: self)
+        let coordinator = HabitsCoordinator(navigationController: UINavigationController())
         return coordinator
     }
 
     private func makeInfoCoordinator() -> CoordinatorProtocol {
-        let coordinator = InfoCoordinator(navigationController: UINavigationController(),
-                                           parentCoordinator: self)
+        let coordinator = InfoCoordinator(navigationController: UINavigationController())
        return coordinator
     }
 
@@ -66,7 +62,7 @@ extension TabBarCoordinator: CoordinatorProtocol {
         addChildCoordinator(infoCoordinator)
 
         setupTabBarController(viewControllers: [habitsCoordinator.start(), infoCoordinator.start()])
-        return habitsCoordinator.start()
+        return self.tabBarController
     }
 
 }

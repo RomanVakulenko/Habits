@@ -30,7 +30,7 @@ final class AddOrEditViewModel {
     var closureChangeState: ((State) -> Void)?
 
     // MARK: - Private properties
-    private weak var coordinator: HabitsCoordinator?
+    private weak var coordinator: HabitsCoordinatorProtocol?
 
     private weak var dataDelegate: AddOrEditHabitDelegate?
 
@@ -43,7 +43,7 @@ final class AddOrEditViewModel {
     }
 
     // MARK: - Init
-    init(coordinator: HabitsCoordinator?, model: Habit, delegate: AddOrEditHabitDelegate?, indexPath: IndexPath) {
+    init(coordinator: HabitsCoordinatorProtocol?, model: Habit, delegate: AddOrEditHabitDelegate?, indexPath: IndexPath) {
         self.coordinator = coordinator
         self.habitModel = model
         self.dataDelegate = delegate

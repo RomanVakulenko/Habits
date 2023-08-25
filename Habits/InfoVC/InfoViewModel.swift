@@ -33,6 +33,9 @@ final class InfoViewModel {
         self.coordinator = coordinator
     }
 
+    init() {
+    }
+
     // MARK: - Private methods
     private func didTapTabBar() {
         

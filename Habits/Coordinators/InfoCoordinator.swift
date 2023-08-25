@@ -12,13 +12,13 @@ final class InfoCoordinator {
     // MARK: - Private properties
     private var navigationController: UINavigationController
 
-    private weak var parentCoordinator: TabBarCoordinator?
+//    private weak var parentCoordinator: TabBarCoordinator? // нужно если мы имеем логин флоу
 
 
     // MARK: - Init
-    init(navigationController: UINavigationController, parentCoordinator: TabBarCoordinator) {
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
-        self.parentCoordinator = parentCoordinator
+//        self.parentCoordinator = parentCoordinator //нужно если мы имеем логин флоу
     }
 
     // MARK: - Private methods
@@ -29,7 +29,6 @@ final class InfoCoordinator {
         navigationController = navController
         return navigationController
     }
-
 }
 
 extension InfoCoordinator: CoordinatorProtocol {
