@@ -10,19 +10,23 @@ import UIKit
 
 final class TrackViewModel {
 
-    // MARK: - Enum
     enum State {
         case none
         case didGetDates
     }
 
     // MARK: - Public properties
-    private(set) var trackModel: [Date] = []
-    ///благодаря клоужеру мы bindимся (в связи - bind вся суть MVVM )
+    private(set) var tappedHabit: Habit?
+    private(set) var datesFromFirstLaunch: [Date] = []
+    var currentIndexPath: IndexPath?
+    
+    ///благодаря клоужеру мы bindимся со VC
     var closureChangeState: ((State) -> Void)?
+    
 
     // MARK: - Private properties
     private weak var coordinator: HabitsCoordinatorProtocol?
+    private weak var editDelegate: EditHabitDelegate?
 
     private var state: State = .none {
         didSet {
@@ -31,14 +35,32 @@ final class TrackViewModel {
     }
 
     // MARK: - Init
-    init(coordinator: HabitsCoordinatorProtocol?) {
+    init(coordinator: HabitsCoordinatorProtocol, delegate: EditHabitDelegate, existingModel: Habit, indexPath: IndexPath) {
         self.coordinator = coordinator
+        self.editDelegate = delegate
+        self.tappedHabit = existingModel
+        self.currentIndexPath = indexPath
     }
+
 
     // MARK: - Public methods
     func getDates() {
-        trackModel = HabitsStore.shared.dates
+        datesFromFirstLaunch = HabitsStore.shared.dates
         state = .didGetDates
     }
 
+    func didTapEditHabit() {
+        if let tappedHabit,
+           let delegate = editDelegate,
+           let tappedHabitIndexPath = currentIndexPath {
+            coordinator?.pushEditVC(
+                habitForEdit: tappedHabit,
+                habitState: .edit,
+                delegate: delegate, //habitVM
+                indexPath: tappedHabitIndexPath
+            )
+        }
+    }
+
 }
+

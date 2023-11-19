@@ -30,10 +30,11 @@ final class MainCoordinator {
         guard !childCoordinators.contains(where: { $0 === coordinator })  else { return }
         childCoordinators.append(coordinator)
     }
-
-    private func removeChildCoordinator(_ coordinator: CoordinatorProtocol) { // нужно если мы имеем логин флоу  removeChildCoordinator ?
-        childCoordinators.removeAll(where: { $0 === coordinator })
-    }
+    
+// нужно если мы имеем логин флоу
+//    private func removeChildCoordinator(_ coordinator: CoordinatorProtocol) {  removeChildCoordinator ?
+//        childCoordinators.removeAll(where: { $0 === coordinator })
+//    }
 
 }
 
@@ -47,8 +48,8 @@ extension MainCoordinator: CoordinatorProtocol {
     }
 }
 
-
-//extension MainCoordinator: MainCoordinatorProtocol { // нужно если мы имеем логин флоу
+// нужно если мы имеем логин флоу
+//extension MainCoordinator: MainCoordinatorProtocol {
 //    func switchFlow() {
 //        ()
 //    }

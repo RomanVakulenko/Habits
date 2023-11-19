@@ -9,16 +9,11 @@ import UIKit
 
 final class TrackHabitViewController: UIViewController {
 
-    var indexOfHabit = Int()
 
     // MARK: - Private properties
     private let store = HabitsStore.shared
-
-    private let datesArr = HabitsStore.shared.dates
-
     private var viewModel: TrackViewModel
 
-    
     // MARK: - Subviews
     private lazy var datesTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -91,10 +86,7 @@ final class TrackHabitViewController: UIViewController {
     }
     
     @objc func editHabit(_ sender: UIBarButtonItem){
-//        let editVC = AddOrEditHabitVC()
-//        editVC.habit = store.habits[indexOfHabit]
-//        editVC.habitState = .edit
-//        navigationController?.pushViewController(editVC, animated: true)
+        viewModel.didTapEditHabit()
     }
 }
 
@@ -104,21 +96,20 @@ final class TrackHabitViewController: UIViewController {
 extension TrackHabitViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.trackModel.count
+        return viewModel.datesFromFirstLaunch.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackingDaysCell.identifier, for: indexPath) as! TrackingDaysCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackingDaysCell.identifier, for: indexPath) as? TrackingDaysCell else { return UITableViewCell() }
+        cell.setupAndShowIsTracked(from: viewModel.datesFromFirstLaunch, at: indexPath)
 
-        cell.setup(from: datesArr, at: indexPath)
-
-        var fallingDates = [Date]() //dates.reversed().map { $0 } //развернутый массив дат
-        for i in datesArr {
-            fallingDates.insert(i, at: 0)
-        }
-        if store.habit(store.habits[indexOfHabit], isTrackedIn: fallingDates[indexPath.row]) {
+        let reversedDatesFromFirstLaunch = viewModel.datesFromFirstLaunch.reversed().map{ $0 }
+        if let tappedHabit = viewModel.tappedHabit,
+           //выполнена ли привычка в конкретную дату из таблицы дат с момента 1ого запуска
+            store.habit(tappedHabit, isTrackedIn: reversedDatesFromFirstLaunch[indexPath.row]) {
             cell.accessoryType = .checkmark
         }
+
         cell.selectionStyle = .none
         return cell
     }
@@ -129,7 +120,7 @@ extension TrackHabitViewController: UITableViewDataSource {
 extension TrackHabitViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = HeaderDetailHabit()
+        let header = HeaderOfDetailHabit()
         header.setup(textForHeader: "АКТИВНОСТЬ")
 
         if section == 0 {

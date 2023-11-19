@@ -23,7 +23,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.mainCoordinator = mainCoordinator
         window.makeKeyAndVisible()
     }
-        
+//до MVVM+Coordinator
 //        let habitsViewController = HabitsViewController()
 //        habitsViewController.view.backgroundColor = .white
 //        let habitsViewNavigationController = UINavigationController(rootViewController: habitsViewController)
@@ -45,7 +45,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        tabBarController.tabBar.tintColor = UIColor(named: "dPurple")
 //        tabBarController.selectedIndex = 0
 //        window.rootViewController = tabBarController
-
 
 }
 

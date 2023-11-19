@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		AD1B7D382A9658D0008E0098 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D372A9658D0008E0098 /* TrackViewModel.swift */; };
 		AD1B7D3B2A965902008E0098 /* AddOrEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D3A2A965902008E0098 /* AddOrEditViewModel.swift */; };
-		AD1B7D3D2A98FCCB008E0098 /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1B7D3C2A98FCCB008E0098 /* NetworkRouter.swift */; };
+		AD38430E2B077570004974AD /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD38430D2B077570004974AD /* Format.swift */; };
+		AD3843102B07B676004974AD /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD38430F2B07B676004974AD /* InfoViewModel.swift */; };
 		AD3EA3BE2A8E40490095E372 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3BD2A8E40490095E372 /* MainCoordinator.swift */; };
 		AD3EA3C02A8E42270095E372 /* HabitsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3BF2A8E42270095E372 /* HabitsCoordinator.swift */; };
 		AD3EA3C32A8E44D10095E372 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3C22A8E44D10095E372 /* CoordinatorProtocol.swift */; };
 		AD3EA3C82A8E47B50095E372 /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3C72A8E47B50095E372 /* HabitsViewModel.swift */; };
-		AD3EA3CB2A8E6B2A0095E372 /* InfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3CA2A8E6B2A0095E372 /* InfoViewModel.swift */; };
 		AD3EA3CD2A8E75F60095E372 /* InfoCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3CC2A8E75F60095E372 /* InfoCoordinator.swift */; };
 		AD3EA3D12A8F782E0095E372 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD3EA3D02A8F782E0095E372 /* TabBarCoordinator.swift */; };
 		AD980D532A66B32A00BB9EA8 /* UIView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */; };
@@ -39,12 +39,12 @@
 /* Begin PBXFileReference section */
 		AD1B7D372A9658D0008E0098 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		AD1B7D3A2A965902008E0098 /* AddOrEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditViewModel.swift; sourceTree = "<group>"; };
-		AD1B7D3C2A98FCCB008E0098 /* NetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRouter.swift; sourceTree = "<group>"; };
+		AD38430D2B077570004974AD /* Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
+		AD38430F2B07B676004974AD /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		AD3EA3BD2A8E40490095E372 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		AD3EA3BF2A8E42270095E372 /* HabitsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsCoordinator.swift; sourceTree = "<group>"; };
 		AD3EA3C22A8E44D10095E372 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		AD3EA3C72A8E47B50095E372 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
-		AD3EA3CA2A8E6B2A0095E372 /* InfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewModel.swift; sourceTree = "<group>"; };
 		AD3EA3CC2A8E75F60095E372 /* InfoCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCoordinator.swift; sourceTree = "<group>"; };
 		AD3EA3D02A8F782E0095E372 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extension.swift"; sourceTree = "<group>"; };
@@ -88,14 +88,6 @@
 			path = EditVC;
 			sourceTree = "<group>";
 		};
-		AD1B7D3E2A98FCD2008E0098 /* NetworkLayer */ = {
-			isa = PBXGroup;
-			children = (
-				AD1B7D3C2A98FCCB008E0098 /* NetworkRouter.swift */,
-			);
-			path = NetworkLayer;
-			sourceTree = "<group>";
-		};
 		AD3EA3C12A8E44A30095E372 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				ADC4D4102A4DF2D400942944 /* InfoViewController.swift */,
-				AD3EA3CA2A8E6B2A0095E372 /* InfoViewModel.swift */,
+				AD38430F2B07B676004974AD /* InfoViewModel.swift */,
 			);
 			path = InfoVC;
 			sourceTree = "<group>";
@@ -129,10 +121,10 @@
 		AD980D582A6A747600BB9EA8 /* cells */ = {
 			isa = PBXGroup;
 			children = (
-				AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */,
-				ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */,
 				AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */,
 				AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */,
+				AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */,
+				ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -141,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */,
+				AD38430D2B077570004974AD /* Format.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -176,7 +169,6 @@
 				ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */,
 				ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */,
 				AD980D522A66B32A00BB9EA8 /* UIView+extension.swift */,
-				AD1B7D3E2A98FCD2008E0098 /* NetworkLayer */,
 				AD3EA3C12A8E44A30095E372 /* Coordinators */,
 				AD3EA3C62A8E47930095E372 /* HabitsVC */,
 				AD3EA3C92A8E6AE60095E372 /* InfoVC */,
@@ -275,9 +267,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD38430E2B077570004974AD /* Format.swift in Sources */,
 				AD1B7D3B2A965902008E0098 /* AddOrEditViewModel.swift in Sources */,
-				AD1B7D3D2A98FCCB008E0098 /* NetworkRouter.swift in Sources */,
-				AD3EA3CB2A8E6B2A0095E372 /* InfoViewModel.swift in Sources */,
 				ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */,
 				AD3EA3CD2A8E75F60095E372 /* InfoCoordinator.swift in Sources */,
 				AD3EA3BE2A8E40490095E372 /* MainCoordinator.swift in Sources */,
@@ -286,6 +277,7 @@
 				ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */,
 				ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */,
 				AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */,
+				AD3843102B07B676004974AD /* InfoViewModel.swift in Sources */,
 				AD3EA3C82A8E47B50095E372 /* HabitsViewModel.swift in Sources */,
 				AD3EA3D12A8F782E0095E372 /* TabBarCoordinator.swift in Sources */,
 				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,

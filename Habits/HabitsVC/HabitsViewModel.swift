@@ -10,12 +10,14 @@ import UIKit
 final class HabitsViewModel {
 
     // MARK: - Enum
-    enum State { ///мин для работы с сетью, но может быть больше состояний
+    enum State {
         case none
         case loading
         case loaded
-        case reloadItems(at: [IndexPath])
-        case wrong(errorDescription: String)
+        case reloadEditedHabit(at: [IndexPath])
+        case createHabitAndReloadCollection
+        case deleteHabitAndReloadCollection
+        case wrong(errorDescription: String) //не юзал
     }
 
     // MARK: - Public properties
@@ -26,7 +28,7 @@ final class HabitsViewModel {
     var closureChangeState: ((State) -> Void)?
 
     // MARK: - Private properties
-    private weak var coordinator: HabitsCoordinatorProtocol?
+    private weak var habitsCoordinator: HabitsCoordinatorProtocol?
 
     private var state: State = .none {
         didSet {
@@ -35,29 +37,31 @@ final class HabitsViewModel {
     }
 
     // MARK: - Init
-    init(coordinator: HabitsCoordinatorProtocol?) {
-        self.coordinator = coordinator
+    init(coordinator: HabitsCoordinatorProtocol) {
+        self.habitsCoordinator = coordinator
     }
 
     // MARK: - Public methods
-    func getHabits() {
+    func loadHabits() {
         state = .loading
-        mockNetworkAPI { habits in
+        mockNetworkRequest { habits in
             self.habitsModel = habits
             self.state = .loaded
         }
     }
 
-    func didTapCell(at indexPath: IndexPath) {
-        let model = trackModel[indexPath.item] //если бы даты не сохранялись бы в UserDefaults, то откуда бы мы тогда брали бы модель? Тоже из сети?
-        coordinator?.pushTrackVC(model: model,
-                                 delegate: self,
-                                 indexPath: indexPath) 
+    func didTapAddHabit() {
+        habitsCoordinator?.pushAddNewHabitVC(habitVCState: .create, delegate: self)
+    }
+
+    func didTapHabitCell(at indexPath: IndexPath) {
+        let tappedHabit = habitsModel[indexPath.item]
+        habitsCoordinator?.pushTrackVCWith(model: tappedHabit, delegate: self, indexPath: indexPath)
     }
 
 
     // MARK: - Private methods
-    private func mockNetworkAPI(completion: @escaping([Habit]) -> Void) {
+    private func mockNetworkRequest(completion: @escaping([Habit]) -> Void) {
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + .seconds(1)) {
             let model = HabitsStore.shared.habits
             completion(model)
@@ -65,10 +69,27 @@ final class HabitsViewModel {
     }
 }
 
-// MARK: - ExtensionDelegate
-extension HabitsViewModel: AddOrEditHabitDelegate {
-    func passAddOrEdit(habitName: String, color: UIColor, time: Date, at indexPath: IndexPath) {
-        state = .reloadItems(at: [indexPath])
-    }
 
+// MARK: - ExtensionDelegate
+extension HabitsViewModel: AddHabitDelegate {
+    // происходит в момент нажатия Save в AddOrEditHabitVC
+    func reloadData() {
+        habitsModel = HabitsStore.shared.habits
+        print("number of viewModel.habitsModel - \(HabitsStore.shared.habits.count)")
+        state = .createHabitAndReloadCollection
+    }
+}
+
+
+extension HabitsViewModel: EditHabitDelegate {
+    // происходит в момент нажатия Save в AddOrEditHabitVC
+    func reloadEditedHabitOrDeleteAt(_ indexPath: IndexPath, dueTo tappedButton: HabitVCState) {
+        habitsModel = HabitsStore.shared.habits
+
+        if tappedButton == .edit {
+            state = .reloadEditedHabit(at: [indexPath])
+        } else if tappedButton == .delete {
+            state = .deleteHabitAndReloadCollection
+        }
+    }
 }

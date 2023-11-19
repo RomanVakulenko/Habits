@@ -9,71 +9,59 @@ import Foundation
 import UIKit
 
 
-protocol AddOrEditHabitDelegate: AnyObject {
-    func passAddOrEdit(habitName: String, color: UIColor, time: Date, at indexPath: IndexPath)
+protocol AddHabitDelegate: AnyObject {
+    func reloadData()
+}
+
+protocol EditHabitDelegate: AnyObject {
+    func reloadEditedHabitOrDeleteAt(_ indexPath: IndexPath, dueTo tappedButton: HabitVCState)
 }
 
 
 final class AddOrEditViewModel {
 
-    // MARK: - Enum
-    enum State {
-        case none
-        case add
-        case edit
-    }
-
-
     // MARK: - Public properties
-    private(set) var habitModel: Habit
-
-    var closureChangeState: ((State) -> Void)?
+    private(set) var habitModel: Habit?
 
     // MARK: - Private properties
     private weak var coordinator: HabitsCoordinatorProtocol?
 
-    private weak var dataDelegate: AddOrEditHabitDelegate?
+    private weak var addHabitDelegate: AddHabitDelegate?
+    private weak var editHabitDelegate: EditHabitDelegate?
 
-    private var currentIndexPath: IndexPath
-
-    private var state: State = .none {
-        didSet{
-            closureChangeState?(state)
-        }
-    }
+    private var currentIndexPath: IndexPath? 
 
     // MARK: - Init
-    init(coordinator: HabitsCoordinatorProtocol?, model: Habit, delegate: AddOrEditHabitDelegate?, indexPath: IndexPath) {
+    init(coordinator: HabitsCoordinatorProtocol, existingModel: Habit, delegate: EditHabitDelegate, indexPath: IndexPath) {
         self.coordinator = coordinator
-        self.habitModel = model
-        self.dataDelegate = delegate
+        self.habitModel = existingModel
+        self.editHabitDelegate = delegate
         self.currentIndexPath = indexPath
     }
 
+    init(coordinator: HabitsCoordinatorProtocol, addDelegate: AddHabitDelegate) {
+        self.coordinator = coordinator
+        self.addHabitDelegate = addDelegate
+    }
     
 
     // MARK: - Public methods
-    func getHabitIfEdit(at indexPath: IndexPath) {
-        habitModel = HabitsStore.shared.habits[indexPath.item]
+
+    func didTapSaveOrCancelOrDelete(tapped state: HabitVCState) {
+
+        if let indexPath = currentIndexPath {
+            switch state {
+            case .edit:
+                editHabitDelegate?.reloadEditedHabitOrDeleteAt(indexPath, dueTo: .edit)
+            case .delete:
+                editHabitDelegate?.reloadEditedHabitOrDeleteAt(indexPath, dueTo: .delete)
+            default: break
+            }
+        } else if state == .create {
+            addHabitDelegate?.reloadData()
+        }
+
+        coordinator?.popToRootVC()
     }
-
-    func didTapSave() {
-        dataDelegate?.passAddOrEdit(
-            habitName: habitModel.name,
-            color: habitModel.color,
-            time: habitModel.date,
-            at: currentIndexPath
-        )
-    }
-
-
-
-
-    // MARK: - Private methods
-
-
-
-
-
 
 }

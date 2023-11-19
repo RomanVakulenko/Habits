@@ -8,8 +8,10 @@
 import UIKit
 
 protocol HabitsCoordinatorProtocol: AnyObject {
-    func pushTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath)
-    func pushAddOrEditVC(model: Habit, delegate: AddOrEditHabitDelegate, indexPath: IndexPath)
+    func pushAddNewHabitVC(habitVCState: HabitVCState, delegate: AddHabitDelegate)
+    func pushTrackVCWith(model: Habit,  delegate: EditHabitDelegate, indexPath: IndexPath)
+    func pushEditVC(habitForEdit: Habit, habitState: HabitVCState, delegate: EditHabitDelegate, indexPath: IndexPath)
+    func popToRootVC()
 }
 
 final class HabitsCoordinator {
@@ -36,22 +38,36 @@ final class HabitsCoordinator {
         return navigationController
     }
 
-    private func makeTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) -> UIViewController {
-        let viewModel = TrackViewModel(coordinator: self)
+
+    private func makeAddNewHabitVC(addDelegate: AddHabitDelegate, habitState: HabitVCState) -> UIViewController {
+        let viewModel = AddOrEditViewModel(coordinator: self, addDelegate: addDelegate)
+        let addVC = AddOrEditHabitVC(viewModel: viewModel, habitState: habitState)
+        return addVC
+    }
+
+
+    private func makeTrackVC(habitModel: Habit, editDelegate: EditHabitDelegate, indexPath: IndexPath) -> UIViewController {
+        let viewModel = TrackViewModel(
+            coordinator: self,
+            delegate: editDelegate,
+            existingModel: habitModel,
+            indexPath: indexPath
+        )
         let trackVC = TrackHabitViewController(viewModel: viewModel)
         trackVC.title = HabitsStore.shared.habits[indexPath.row].name
         return trackVC
     }
 
-    private func makeAddOrEditVC(model: Habit, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) -> UIViewController {
+
+    private func makeEditVC(modelForEdit: Habit, habitState: HabitVCState, editDelegate: EditHabitDelegate, indexPath: IndexPath) -> UIViewController {
         let viewModel = AddOrEditViewModel(
             coordinator: self,
-            model: model,
-            delegate: delegate,
+            existingModel: modelForEdit,
+            delegate: editDelegate,
             indexPath: indexPath
         )
-        let addOrEditVC = AddOrEditHabitVC(viewModel: viewModel)
-        return addOrEditVC
+        let editVC = AddOrEditHabitVC(viewModel: viewModel, habitState: habitState)
+        return editVC
     }
 }
 
@@ -67,22 +83,30 @@ extension HabitsCoordinator: CoordinatorProtocol {
 
 // MARK: - HabitsCoordinatorProtocol
 extension HabitsCoordinator: HabitsCoordinatorProtocol {
-    func pushTrackVC(model: Date, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) {
-        let vc = makeTrackVC(
-            model: model,
-            delegate: delegate,
+
+    func pushAddNewHabitVC(habitVCState: HabitVCState, delegate: AddHabitDelegate) {
+        let vc = makeAddNewHabitVC(addDelegate: delegate, habitState: habitVCState)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+
+    func pushTrackVCWith(model: Habit, delegate: EditHabitDelegate, indexPath: IndexPath) {
+        let vc = makeTrackVC(habitModel: model, editDelegate: delegate, indexPath: indexPath)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+
+    func pushEditVC(habitForEdit: Habit, habitState habitVCState: HabitVCState, delegate: EditHabitDelegate, indexPath: IndexPath) {
+        let vc = makeEditVC(
+            modelForEdit: habitForEdit, habitState: habitVCState,
+            editDelegate: delegate,
             indexPath: indexPath
         )
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func pushAddOrEditVC(model: Habit, delegate: AddOrEditHabitDelegate, indexPath: IndexPath) {
-        let vc = makeAddOrEditVC(
-            model: model,
-            delegate: delegate,
-            indexPath: indexPath
-        )
-        navigationController.pushViewController(vc, animated: true)
+    func popToRootVC() {
+        navigationController.popToRootViewController(animated: true)
     }
 }
 

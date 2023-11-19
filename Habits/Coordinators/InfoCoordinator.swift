@@ -31,12 +31,11 @@ final class InfoCoordinator {
     }
 }
 
+// MARK: - Extension CoordinatorProtocol
 extension InfoCoordinator: CoordinatorProtocol {
     func start() -> UIViewController {
         let infoVC = makeInfoVC()
         return infoVC
     }
-
-
 }
 

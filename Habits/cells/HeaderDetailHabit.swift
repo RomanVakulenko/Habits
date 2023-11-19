@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HeaderDetailHabit: UIView {
+final class HeaderOfDetailHabit: UIView {
 
     private lazy var header: UILabel = {
         let label = UILabel()
@@ -21,7 +21,6 @@ final class HeaderDetailHabit: UIView {
         super.init(frame: frame)
         layout()
     }
-
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

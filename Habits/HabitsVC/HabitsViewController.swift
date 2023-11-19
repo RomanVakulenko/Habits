@@ -14,6 +14,11 @@ final class HabitsViewController: UIViewController {
 
     private var store = HabitsStore.shared
 
+    private lazy var modelOfHabits: [Habit] = {
+        let model = viewModel.habitsModel
+        return model
+    }()
+
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -48,8 +53,7 @@ final class HabitsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstaints()
-        bindViewModel()
-        viewModel.getHabits()
+        viewModel.loadHabits() //при запуске приложения
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +65,7 @@ final class HabitsViewController: UIViewController {
             action: #selector(addHabit)
         )
         navigationController?.navigationBar.tintColor = UIColor(named: "dPurple")
-        collectionView.reloadData()
+        bindViewModel()
     }
 
 
@@ -70,15 +74,6 @@ final class HabitsViewController: UIViewController {
         view.addSubview(collectionView)
         view.backgroundColor = UIColor(named: "dBackground")
         title = "Сегодня"
-        navigationItem.title = "Сегодня"
-        navigationController?.navigationBar.backgroundColor = UIColor(named: "dBackground")
-        navigationController?.tabBarItem.image = UIImage(named: "habits_tab_icon")
-
-        if let tabBarItem1 = self.tabBarController?.tabBar.items?[1] {
-                    tabBarItem1.title = "Информация"
-                    tabBarItem1.image = UIImage(systemName: "info.circle")
-                    tabBarItem1.selectedImage = UIImage(named: "info.circle.fill")
-                }
     }
 
     private func setupConstaints() {
@@ -98,32 +93,32 @@ final class HabitsViewController: UIViewController {
             case .none:
                 ()
             case .loading:
-                ()
+                () //нужен если есть анимация загрузки
             case .loaded:
                 self.collectionView.reloadData()
 
-            case .reloadItems(let indexPaths):
+            case .createHabitAndReloadCollection:
+                modelOfHabits = viewModel.habitsModel
+                self.collectionView.reloadData()
+
+            case .reloadEditedHabit(let indexPaths):
+                modelOfHabits = viewModel.habitsModel
                 self.collectionView.reloadItems(at: indexPaths)
 
+            case .deleteHabitAndReloadCollection:
+                modelOfHabits = viewModel.habitsModel
+                self.collectionView.reloadData()
+
             case .wrong(errorDescription: let errorDescription):
-                ()
+                () //не заюзал
             }
         }
     }
 
     // MARK: - Actions
     @objc func addHabit() {
-//        #error("1.как настроить "+" и "Править" кнопки, 2.как отобразить добавленную привычку? 3.как сделать галочку по затреканной в правильный день привычке(не те дни показывает), 4.как сделать табБар")
-//        let addOrEditHabitVC = AddOrEditHabitVC(viewModel: <#AddOrEditViewModel#>)
-//
-//        let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.
-//        navController.view.backgroundColor = UIColor(named: "dBackground")
-//        navController.modalTransitionStyle = .coverVertical
-//        navController.modalPresentationStyle = .fullScreen
-//        navController.navigationBar.tintColor = UIColor(named: "dPurple")
-//        present(navController, animated: true)
+        viewModel.didTapAddHabit()
     }
-    
 }
 
 //MARK: - UICollectionViewDataSource
@@ -140,6 +135,7 @@ extension HabitsViewController: UICollectionViewDataSource {
             numberOfItems = 1
         } else {
             numberOfItems = viewModel.habitsModel.count
+            print("numberOfItems in 2nd section - \(numberOfItems)")
         }
         return numberOfItems
     }
@@ -151,16 +147,17 @@ extension HabitsViewController: UICollectionViewDataSource {
             return cell
         } else {
             guard let habitCell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as? HabitCollectionViewCell else { return UICollectionViewCell()}
-            let model = viewModel.habitsModel
-            habitCell.setup(habit: model[indexPath.item]){ //1. после создания ячеек в определенный момент(tapAtButton - см. cell) обновим коллекцию
-                collectionView.reloadData() //  escaping closure
+            habitCell.setup(habit: modelOfHabits[indexPath.item]){
+                collectionView.reloadItems(at: [indexPath]) // этот completion сохранен в checkMarkBtnStateClosure, чтобы его вызвать, когда нажмем на checkMark и тогда он сделает то, что в нем написано - reloadItems
             }
             return habitCell
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.didTapCell(at: indexPath)
+        if indexPath.section > 0 {
+            viewModel.didTapHabitCell(at: indexPath)
+        }
     }
 }
 
@@ -185,7 +182,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 22, left: inset, bottom: 0, right: inset)
     }
-    //отступы между рядами-строками для вертикальной коллекции
+    //spacing между рядами/строками для вертикальной коллекции
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
        12
     }
