@@ -8,21 +8,27 @@
 import UIKit
 
 enum HabitVCState {
-    case create, edit
+    case create, edit, cancel, delete
 }
 
+
 final class AddOrEditHabitVC: UIViewController {
-    
-    var habit: Habit?
-    var habitState = HabitVCState.create
+    // MARK: - Private properties
+    private var habitState: HabitVCState
 
     private lazy var habitStore: HabitsStore = {
         return HabitsStore.shared
     }()
 
+    private var viewModel: AddOrEditViewModel
+
+    private lazy var model: Habit? = { [unowned self] in
+        self.viewModel.habitModel
+    }()
+    ///ставятся после ввода  или уже передаются заполненными, если жмем "править"
     private var currentTitle = ""
-    private var currentColor = UIColor.systemBlue
     private var currentDate = Date()
+    private var currentColor = UIColor.systemBlue
 
     private let baseView: UIView = {
         let view = UIView()
@@ -31,7 +37,7 @@ final class AddOrEditHabitVC: UIViewController {
         return view
     }()
 
-    private let nameTitleHabit: UILabel = {
+    private let titleOfHabit: UILabel = {
         let nameTitle = UILabel()
         nameTitle.translatesAutoresizingMaskIntoConstraints = false
         nameTitle.font = UIFont(name: "SFProText-Semibold", size: 13)
@@ -40,16 +46,17 @@ final class AddOrEditHabitVC: UIViewController {
         return nameTitle
     }()
 
-    private let textTitleHabit: UITextField = {
+    private lazy var nameOfHabit: UITextField = {
         let text = UITextField()
         text.translatesAutoresizingMaskIntoConstraints = false
         text.font = UIFont(name: "SFProText-Regular", size: 17)
         text.textColor = .systemBlue
         text.placeholder = "Приседать в перерывах; Гимнастика глаз и т.п."
+        text.delegate = self
         return text
     }()
 
-    private let colorTitleHabit: UILabel = {
+    private let colorOfHabitTitle: UILabel = {
         let color = UILabel()
         color.translatesAutoresizingMaskIntoConstraints = false
         color.font = UIFont(name: "SFProText-Semibold", size: 13)
@@ -79,7 +86,7 @@ final class AddOrEditHabitVC: UIViewController {
         return time
     }()
 
-    private let habitTimeLabelText: UILabel = {
+    private let timeToPracticeHabit: UILabel = {
         let timeSet = UILabel()
         timeSet.translatesAutoresizingMaskIntoConstraints = false
         timeSet.font = UIFont(name: "SFProText-Regular", size: 17)
@@ -88,31 +95,38 @@ final class AddOrEditHabitVC: UIViewController {
         return timeSet
     }()
 
-    private let pickedHabitTime: UILabel = {
+    private lazy var pickedTime: UILabel = {
         let pickedTime = UILabel()
         pickedTime.translatesAutoresizingMaskIntoConstraints = false
         pickedTime.font = UIFont(name: "SFProText-Regular", size: 17)
         pickedTime.textColor = UIColor(named: "dPurple")
-        pickedTime.text = ""
         return pickedTime
     }()
 
-    private lazy var datePicker: UIDatePicker = { //константа инициализируется при первом обращении к ней
+    private lazy var datePicker: UIDatePicker = {
         let timePicker = UIDatePicker()
         timePicker.translatesAutoresizingMaskIntoConstraints = false
         timePicker.datePickerMode = UIDatePicker.Mode.time
         timePicker.preferredDatePickerStyle = .wheels
+        timePicker.locale = .init(identifier: "ru_RU")
         timePicker.backgroundColor = UIColor(named: "dBackground")
-        timePicker.addTarget(self, action: #selector(pickTime(_:)), for: .valueChanged) //добавляем таргет на измДанных
+        timePicker.addTarget(self, action: #selector(pickTime(_:)), for: .valueChanged)
         return timePicker
     }()
 
-    private var colorPicker = UIColorPickerViewController()
+    private lazy var colorPicker: UIColorPickerViewController = {
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.title = "Take new habit color"
+        colorPicker.modalPresentationStyle = .popover
+        colorPicker.selectedColor = currentColor
+        colorPicker.delegate = self
+        return colorPicker
+    }()
 
-    private lazy var deleteButton: UIButton = { //a lazy надо использовать для того, чтобы внутри замыкания можно было использовать self
+    private lazy var deleteButton: UIButton = { //lazy, чтобы внутри замыкания использовать self
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isHidden = true //если надо, чтобы она сначала была скрыта
+        button.isHidden = true //сначала скрыта
         button.setTitle("Удалить привычку", for: .normal)
         button.setTitleColor(.red, for: .normal)
         button.addTarget(self, action: #selector(showDeleteAlert(_:)), for: .touchUpInside)
@@ -120,32 +134,24 @@ final class AddOrEditHabitVC: UIViewController {
     }()
 
 
+    // MARK: - Init
+
+    init(viewModel: AddOrEditViewModel, habitState: HabitVCState) {
+        self.viewModel = viewModel
+        self.habitState = habitState
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        createDatePickerLabel()
-        view.backgroundColor = UIColor(named: "dBackground")
-
-        if let habit { //до установки элементов интерфейса и для экрана "Править"
-            currentDate = habit.date
-            currentColor = habit.color
-            currentTitle = habit.name
-        }
+        setupView()
         layout()
-        textTitleHabit.delegate = self
-
-        if habitState == .edit {
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-            textTitleHabit.text = currentTitle //1h16min
-            textTitleHabit.textColor = currentColor
-            pickerButton.tintColor = currentColor //для "Править" если цвет был - то оставляем
-            datePicker.date = currentDate
-            pickedHabitTime.text = formatter.string(from: currentDate)
-            pickedHabitTime.textColor = UIColor(named: "dPurple")
-            colorPicker.selectedColor = currentColor
-            deleteButton.isHidden = false
-        }
+        presetDataForEditingHabit()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -165,47 +171,49 @@ final class AddOrEditHabitVC: UIViewController {
         title = habitState == .create ? "Создать" : "Править"
 
         if habitState == .edit {
-            textTitleHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
+            nameOfHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
         }
     }
-    
-    //MARK: - private methods
+
+    // MARK: - Private methods
+    private func setupView() {
+        [titleOfHabit, nameOfHabit, colorOfHabitTitle, pickerButton, timeTitleHabit, timeToPracticeHabit, pickedTime, datePicker, deleteButton].forEach { baseView.addSubview($0) }
+        view.addSubview(baseView)
+        view.backgroundColor = UIColor(named: "dBackground")
+    }
 
     private func layout() {
-        [nameTitleHabit, textTitleHabit, colorTitleHabit, pickerButton, timeTitleHabit, habitTimeLabelText, pickedHabitTime, datePicker, deleteButton].forEach { baseView.addSubview($0) }
-        view.addSubview(baseView)
-
         NSLayoutConstraint.activate([
             baseView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             baseView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             baseView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 21),
             baseView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 
-            nameTitleHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-            nameTitleHabit.topAnchor.constraint(equalTo: baseView.topAnchor),
+            titleOfHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
+            titleOfHabit.topAnchor.constraint(equalTo: baseView.topAnchor),
 
-            textTitleHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-            textTitleHabit.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
-            textTitleHabit.topAnchor.constraint(equalTo: nameTitleHabit.bottomAnchor, constant: 7),
+            nameOfHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
+            nameOfHabit.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
+            nameOfHabit.topAnchor.constraint(equalTo: titleOfHabit.bottomAnchor, constant: 7),
 
-            colorTitleHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-            colorTitleHabit.topAnchor.constraint(equalTo: textTitleHabit.bottomAnchor, constant: 15),
+            colorOfHabitTitle.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
+            colorOfHabitTitle.topAnchor.constraint(equalTo: nameOfHabit.bottomAnchor, constant: 15),
 
             pickerButton.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-            pickerButton.topAnchor.constraint(equalTo: colorTitleHabit.bottomAnchor, constant: 7),
+            pickerButton.topAnchor.constraint(equalTo: colorOfHabitTitle.bottomAnchor, constant: 7),
 
             timeTitleHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             timeTitleHabit.topAnchor.constraint(equalTo: pickerButton.bottomAnchor, constant: 15),
 
-            habitTimeLabelText.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
-            habitTimeLabelText.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
+            timeToPracticeHabit.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
+            timeToPracticeHabit.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
 
-            pickedHabitTime.leadingAnchor.constraint(equalTo: habitTimeLabelText.trailingAnchor),
-            pickedHabitTime.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
+            pickedTime.leadingAnchor.constraint(equalTo: timeToPracticeHabit.trailingAnchor),
+            pickedTime.topAnchor.constraint(equalTo: timeTitleHabit.bottomAnchor, constant: 7),
 
             datePicker.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
-            datePicker.topAnchor.constraint(equalTo: habitTimeLabelText.bottomAnchor, constant: 15),
+            datePicker.topAnchor.constraint(equalTo: timeToPracticeHabit.bottomAnchor, constant: 15),
 
             deleteButton.leadingAnchor.constraint(equalTo: baseView.leadingAnchor),
             deleteButton.trailingAnchor.constraint(equalTo: baseView.trailingAnchor),
@@ -215,67 +223,83 @@ final class AddOrEditHabitVC: UIViewController {
         ])
     }
 
-    @objc func backToHabitsViewController() {
-        if habitState == .create {
-            dismiss(animated: true)
-        } else if habitState == .edit {
-            let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
-            navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
+    ///предустановка для экрана "Править"
+    private func presetDataForEditingHabit() {
+        guard let model else {return}
+        if model.name != "",
+           habitState == .edit {
+            currentTitle = model.name
+            currentDate = model.date
+            currentColor = model.color
+
+            deleteButton.isHidden = false
+
+            nameOfHabit.text = currentTitle
+            nameOfHabit.textColor = currentColor
+            pickerButton.tintColor = currentColor //для "Править", если цвет был - то оставляем
+            datePicker.date = currentDate
+
+            pickedTime.text = Format.timeForHabitRepeats.string(from: currentDate)
+            pickedTime.textColor = UIColor(named: "dPurple")
+            colorPicker.selectedColor = currentColor
         }
     }
+
 
     @objc func saveHabit(_ sender: UIBarButtonItem) {
         if habitState == .create {
-            HabitsStore.shared.habits.append(
-                Habit(name: currentTitle, date: currentDate, color: currentColor)
+            HabitsStore.shared.habits.append( //добавляем привычку в store
+                Habit(name: currentTitle,
+                      date: currentDate,
+                      color: currentColor)
             )
-            dismiss(animated: true) // или navigationController?.popViewController(animated: true)
+            habitStore.save() //записываем в UserDefaults
+            viewModel.didTapSaveOrCancelOrDelete(tapped: .create)
         } else if habitState == .edit {
-            let h = HabitsStore.shared.habits.first {
-                $0 == habit
+            if let model,
+               let tappedHabit = HabitsStore.shared.habits.first(where: { $0.name == model.name }) {
+                tappedHabit.name = currentTitle
+                tappedHabit.color = currentColor
+                tappedHabit.date = currentDate
             }
-            if let h {
-                h.name = currentTitle
-                h.color = currentColor
-                h.date = currentDate
-            }
-            let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
-            navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
+            habitStore.save() //
+            viewModel.didTapSaveOrCancelOrDelete(tapped: .edit)
         }
-        habitStore.save()
+    }
+
+    @objc func backToHabitsViewController() {
+        viewModel.didTapSaveOrCancelOrDelete(tapped: .cancel)
     }
 
     @objc func pickColor(_ sender: UIButton) {
-        colorPicker.title = "Take new habit color"
-        colorPicker.delegate = self
-        colorPicker.modalPresentationStyle = .popover
+        currentColor = colorPicker.selectedColor
         present(colorPicker, animated: true)
     }
 
     @objc func pickTime(_ sender: UIDatePicker) {
-        currentDate = sender.date
-        pickedHabitTime.text = sender.date.formatted(date: .omitted, time: .shortened)
+        currentDate = sender.date //записывается сразу
+        pickedTime.text = Format.timeForHabitRepeats.string(from: currentDate)
+
     }
 
     @objc func showDeleteAlert(_ sender: UIButton) {
-        if let habit {
+        guard let model else {return}
+        if model.name != "" {
             let alert = UIAlertController(
                 title: "Удалить привычку",
                 message: """
-                         Вы хотите удалить привычку "\(habit.name)?"
+                         Вы хотите удалить привычку "\(model.name)?"
                          """,
                 preferredStyle: .alert
             )
             alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
-            alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { [weak self] _ in
-                guard let self else { return }
+            alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: { _ in
                 HabitsStore.shared.habits.removeAll {
-                    $0.name == self.habit?.name //или $0 == self.habit
+                    $0.name == self.currentTitle
                 }
-                let vcs = navigationController!.viewControllers //тут мы уверены, что есть navigationController
-                navigationController?.popToViewController(vcs[vcs.count-3], animated: true)
+                self.habitStore.save()
+                self.viewModel.didTapSaveOrCancelOrDelete(tapped: .delete)
             }))
-
             present(alert, animated: true)
         }
     }
@@ -288,27 +312,23 @@ extension AddOrEditHabitVC: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         colorPicker.dismiss(animated: true) { [weak self] in
             guard let self else {return}
-            self.textTitleHabit.textColor = self.colorPicker.selectedColor
+            self.nameOfHabit.textColor = self.colorPicker.selectedColor
             self.pickerButton.tintColor = self.colorPicker.selectedColor
-            self.textTitleHabit.font  = UIFont(name: "SFProText-Semibold", size: 17)
+            self.nameOfHabit.font  = UIFont(name: "SFProText-Semibold", size: 17)
         }
     }
 
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
-        currentColor = color //чтобы был текущий - для "Править"
+        currentColor = color
     }
 }
 
+//MARK: - UITextFieldDelegate
 extension AddOrEditHabitVC: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textTitleHabit.resignFirstResponder()
-        return true
-    }
-
     func textFieldDidChangeSelection(_ textField: UITextField) {
         currentTitle = textField.text ?? "" //как только текст в поле меняется, то записывается в currentTitle
         if habitState == .create {
-            textTitleHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
+            nameOfHabit.font = UIFont(name: "SFProText-Semibold", size: 17)
         }
     }
 

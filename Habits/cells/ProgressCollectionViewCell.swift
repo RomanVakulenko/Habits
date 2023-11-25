@@ -58,7 +58,7 @@ final class ProgressCollectionViewCell: UICollectionViewCell {
 
     //MARK: - setup
     func setupProgressCell(with value: Float) {
-        percentLabelView.text = String(value * 100) + "%"
+        percentLabelView.text = String(format: "%.0f", (value * 100)) + "%" //rounds for "%.0f" characters after comma
         progressView.setProgress(value, animated: true)
     }
 

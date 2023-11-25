@@ -9,13 +9,25 @@ import UIKit
 
 final class HabitsViewController: UIViewController {
 
-    private var store = HabitsStore.shared
-    
-    private lazy var collectionView: UICollectionView = {
-        let collectionLayout = UICollectionViewFlowLayout()
-        collectionLayout.scrollDirection = .vertical
+    // MARK: - Private properties
+    private var viewModel: HabitsViewModel
 
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+    private var store = HabitsStore.shared
+
+    private lazy var modelOfHabits: [Habit] = {
+        let model = viewModel.habitsModel
+        return model
+    }()
+
+    private lazy var layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+//        layout.minimumLineSpacing = Constants.inset * 2 // удобно, когда 1 коллекция, чтобы не писать func в delegate
+        return layout
+    }()
+
+    private lazy var collectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = UIColor(named: "dBackground")
         collection.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: ProgressCollectionViewCell.identifier)
@@ -25,12 +37,23 @@ final class HabitsViewController: UIViewController {
         return collection
     }()
 
-//MARK: - lifecycle
 
+    // MARK: - Init
+    init(viewModel: HabitsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        layout()
-        navigationItem.title = "Сегодня"
+        setupView()
+        setupConstaints()
+        viewModel.loadHabits() //при запуске приложения
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -42,15 +65,18 @@ final class HabitsViewController: UIViewController {
             action: #selector(addHabit)
         )
         navigationController?.navigationBar.tintColor = UIColor(named: "dPurple")
-        collectionView.reloadData()
+        bindViewModel()
     }
 
 
-//MARK: - methods
-
-    private func layout() {
+    // MARK: - Private methods
+    private func setupView() {
         view.addSubview(collectionView)
+        view.backgroundColor = UIColor(named: "dBackground")
+        title = "Сегодня"
+    }
 
+    private func setupConstaints() {
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -59,17 +85,40 @@ final class HabitsViewController: UIViewController {
         ])
     }
 
-    @objc func addHabit() {
-        let addOrEditHabitVC = AddOrEditHabitVC()
-        
-        let navController = UINavigationController(rootViewController: addOrEditHabitVC) // Creating a navigation controller with addOrEditHabitVC at the root of the navigation stack.
-        navController.view.backgroundColor = UIColor(named: "dBackground")
-        navController.modalTransitionStyle = .coverVertical
-        navController.modalPresentationStyle = .fullScreen
-        navController.navigationBar.tintColor = UIColor(named: "dPurple")
-        present(navController, animated: true)
+    private func bindViewModel() {
+        viewModel.closureChangeState = { [weak self] state in
+            guard let self else {return}
+
+            switch state {
+            case .none:
+                ()
+            case .loading:
+                () //нужен если есть анимация загрузки
+            case .loaded:
+                self.collectionView.reloadData()
+
+            case .createHabitAndReloadCollection:
+                modelOfHabits = viewModel.habitsModel
+                self.collectionView.reloadData()
+
+            case .reloadEditedHabit(let indexPaths):
+                modelOfHabits = viewModel.habitsModel
+                self.collectionView.reloadItems(at: indexPaths)
+
+            case .deleteHabitAndReloadCollection:
+                modelOfHabits = viewModel.habitsModel
+                self.collectionView.reloadData()
+
+            case .wrong(errorDescription: let errorDescription):
+                () //не заюзал
+            }
+        }
     }
-    
+
+    // MARK: - Actions
+    @objc func addHabit() {
+        viewModel.didTapAddHabit()
+    }
 }
 
 //MARK: - UICollectionViewDataSource
@@ -85,8 +134,7 @@ extension HabitsViewController: UICollectionViewDataSource {
         if section == 0 {
             numberOfItems = 1
         } else {
-            numberOfItems = store.habits.count
-        }
+            numberOfItems = viewModel.habitsModel.count        }
         return numberOfItems
     }
 
@@ -97,18 +145,17 @@ extension HabitsViewController: UICollectionViewDataSource {
             return cell
         } else {
             guard let habitCell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as? HabitCollectionViewCell else { return UICollectionViewCell()}
-            habitCell.setup(habit: store.habits[indexPath.item]){ //1. после создания ячеек в определенный момент(tapAtButton - см. cell) обновим коллекцию
-                collectionView.reloadData() //  escaping closure
+            habitCell.setup(habit: modelOfHabits[indexPath.item]){
+                collectionView.reloadData() // этот completion сохранен в checkMarkBtnStateClosure чтобы его вызвать, когда нажмем на checkMark и тогда он сделает то, что в нем написано - reloadData (и прогресс обновит)
             }
             return habitCell
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let habitDetailsVC = HabitDetailsViewController()
-        navigationController?.pushViewController(habitDetailsVC, animated: true)
-        habitDetailsVC.title = HabitsStore.shared.habits[indexPath.row].name
-        habitDetailsVC.indexOfHabit = indexPath.row
+        if indexPath.section > 0 {
+            viewModel.didTapHabitCell(at: indexPath)
+        }
     }
 }
 
@@ -121,7 +168,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width - inset * 2
-        var height = 0.0
+        var height: CGFloat
         if indexPath == [0,0] {
             height = 60
         } else {
@@ -133,7 +180,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 22, left: inset, bottom: 0, right: inset)
     }
-    //отступы между рядами-строками для вертикальной коллекции
+    //spacing между рядами/строками для вертикальной коллекции
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
        12
     }
