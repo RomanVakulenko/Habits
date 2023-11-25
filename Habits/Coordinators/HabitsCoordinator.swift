@@ -18,7 +18,6 @@ final class HabitsCoordinator {
 
     // MARK: - Private properties
     private var navigationController: UINavigationController
-
     //    private weak var parentCoordinator: TabBarCoordinator? // нужно если мы имеем логин флоу
 
     // MARK: - Init

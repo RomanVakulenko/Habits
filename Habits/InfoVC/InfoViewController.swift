@@ -13,7 +13,7 @@ final class InfoViewController: UIViewController {
     // MARK: - Private properties
     private var viewModel: InfoViewModel
 
-    private lazy var textView: UITextView = { //??текст длиннее экрана и показывает конец, как показывать начало при заходе на этот VC??
+    private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textAlignment = .natural
@@ -22,8 +22,8 @@ final class InfoViewController: UIViewController {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 2
         paragraphStyle.paragraphSpacing = 8
-//        paragraphStyle.firstLineHeadIndent = 8.0 // Горизонтальный отступ для первой строки абзаца
-//        paragraphStyle.headIndent = 20.0 // Горизонтальный отступ для остальных строк абзаца
+        //        paragraphStyle.firstLineHeadIndent = 8.0 // Горизонтальный отступ для первой строки абзаца
+        //        paragraphStyle.headIndent = 20.0 // Горизонтальный отступ для остальных строк абзаца
 
         let titleString = NSAttributedString(
             string: "Привычка за 21 день\n",
@@ -50,6 +50,7 @@ final class InfoViewController: UIViewController {
         result.append(referenceString)
 
         textView.attributedText = result
+        textView.scrollRangeToVisible(NSRange(location: 0, length: 0))
 
         return textView
     }()
@@ -71,6 +72,15 @@ final class InfoViewController: UIViewController {
         layout()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Источник",
+            style: .plain,
+            target: self,
+            action: #selector(showInfoSource))
+    }
+
     // MARK: - Private methods
     private func setupView() {
         view.backgroundColor = .white
@@ -86,7 +96,13 @@ final class InfoViewController: UIViewController {
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
+
+//MARK: - actions
+    @objc func showInfoSource(_sender: UIBarButtonItem) {
+        viewModel.didTapInfoSourceVC()
+    }
 }
+
 
 //с использованием scrollView, contentView, stackView (нарушает DRY для текста)
 //final class InfoViewController: UIViewController {

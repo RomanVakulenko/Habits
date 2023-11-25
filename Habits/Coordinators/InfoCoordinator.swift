@@ -7,11 +7,14 @@
 
 import UIKit
 
+protocol InfoCoordinatorProtocol: AnyObject {
+    func pushInfoSourceVC()
+}
+
 final class InfoCoordinator {
 
     // MARK: - Private properties
     private var navigationController: UINavigationController
-
 //    private weak var parentCoordinator: TabBarCoordinator? // нужно если мы имеем логин флоу
 
 
@@ -29,13 +32,27 @@ final class InfoCoordinator {
         navigationController = navController
         return navigationController
     }
+
+    private func makeInfoSourceVC() -> UIViewController {
+        let viewModel = SourceVCModel(coordinator: self)
+        let infoSourceVC = SourceOfDescriptionVC(viewModel: viewModel)
+        return infoSourceVC
+    }
 }
 
-// MARK: - Extension CoordinatorProtocol
+// MARK: - CoordinatorProtocol
 extension InfoCoordinator: CoordinatorProtocol {
     func start() -> UIViewController {
         let infoVC = makeInfoVC()
         return infoVC
+    }
+}
+//MARK: - InfoCoordinatorProtocol
+extension InfoCoordinator: InfoCoordinatorProtocol {
+
+    func pushInfoSourceVC() {
+        let vc = makeInfoSourceVC()
+        navigationController.pushViewController(vc, animated: true)
     }
 }
 

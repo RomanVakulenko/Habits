@@ -114,13 +114,6 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         checkMarkImageView.tintColor = habit.color
     }
 
-//    override func prepareForReuse() { //??возможно и не нужен, потому что когда сохраняем привычку,то state меняем и релоадим коллекцию и срабатывают все методы делегата коллекции - верно, что не нужен ??
-//        nameOfHabit.text = nil
-//        nameOfHabit.textColor = nil
-//        timeOfHabit.text = nil
-//        amountOfRepeats.text = nil
-//    }
-
 //MARK: - private methods
 
     private func layout() {

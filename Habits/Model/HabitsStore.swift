@@ -123,7 +123,7 @@ public final class HabitsStore {
     public func save() {
         do {
             let data = try encoder.encode(habits)
-            userDefaults.setValue(data, forKey: "habits")
+            userDefaults.set(data, forKey: "habits")
         }
         catch {
             print("Ошибка кодирования привычек для сохранения", error)
@@ -152,14 +152,11 @@ public final class HabitsStore {
     // MARK: - Private
 
     private init() {
-        if userDefaults.value(forKey: "start_date") == nil {
+        if userDefaults.object(forKey: "start_date") == nil {
             let startDate = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: Date())) ?? Date()
-            userDefaults.setValue(startDate, forKey: "start_date")
+            userDefaults.set(startDate, forKey: "start_date")
         }
-        guard let data = userDefaults.data(forKey: "habits") else {
-            print("Вероятно первый запуск - т.к. не смог достать дату по ключу") //??срабатывает - надо ли как-то обходить или норм??
-            return
-        }
+        guard let data = userDefaults.data(forKey: "habits") else { return }
         do {
             habits = try decoder.decode([Habit].self, from: data)
         }

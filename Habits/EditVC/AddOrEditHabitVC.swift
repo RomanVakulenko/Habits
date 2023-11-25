@@ -298,12 +298,10 @@ final class AddOrEditHabitVC: UIViewController {
                     $0.name == self.currentTitle
                 }
                 self.habitStore.save()
+                self.viewModel.didTapSaveOrCancelOrDelete(tapped: .delete)
             }))
-
             present(alert, animated: true)
-            self.viewModel.didTapSaveOrCancelOrDelete(tapped: .delete)
         }
-
     }
 }
 

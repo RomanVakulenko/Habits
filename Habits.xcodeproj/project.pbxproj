@@ -21,6 +21,8 @@
 		AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */; };
 		AD980D5A2A6A74E900BB9EA8 /* HabitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */; };
 		AD9AA0782A74F598001D0154 /* HeaderDetailHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */; };
+		ADBB20442B1087B8006A601E /* SourceOfDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB20432B1087B8006A601E /* SourceOfDescriptionVC.swift */; };
+		ADBB20472B109C1C006A601E /* SourceVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBB20462B109C1C006A601E /* SourceVCModel.swift */; };
 		ADBE50442A4F3D1D00DBF546 /* AddOrEditHabitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */; };
 		ADC4D3F02A4DDC7D00942944 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */; };
 		ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D3F12A4DDC7D00942944 /* SceneDelegate.swift */; };
@@ -32,6 +34,7 @@
 		ADC4D40D2A4DF24C00942944 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40C2A4DF24C00942944 /* HabitsStore.swift */; };
 		ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D40E2A4DF2A900942944 /* HabitsViewController.swift */; };
 		ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADC4D4102A4DF2D400942944 /* InfoViewController.swift */; };
+		ADC71ABF2B0F48DF007FF5FA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = ADC71ABE2B0F48DF007FF5FA /* Kingfisher */; };
 		ADE43ECB2A73CF3D00B2799C /* TrackHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE43ECA2A73CF3D00B2799C /* TrackHabitViewController.swift */; };
 		ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE43ECC2A73E4AC00B2799C /* TrackingDaysCell.swift */; };
 /* End PBXBuildFile section */
@@ -51,6 +54,8 @@
 		AD980D542A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD980D592A6A74E900BB9EA8 /* HabitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCollectionViewCell.swift; sourceTree = "<group>"; };
 		AD9AA0772A74F598001D0154 /* HeaderDetailHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderDetailHabit.swift; sourceTree = "<group>"; };
+		ADBB20432B1087B8006A601E /* SourceOfDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceOfDescriptionVC.swift; sourceTree = "<group>"; };
+		ADBB20462B109C1C006A601E /* SourceVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceVCModel.swift; sourceTree = "<group>"; };
 		ADBE50432A4F3D1D00DBF546 /* AddOrEditHabitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditHabitVC.swift; sourceTree = "<group>"; };
 		ADC4D3EC2A4DDC7D00942944 /* Habits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADC4D3EF2A4DDC7D00942944 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADC71ABF2B0F48DF007FF5FA /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +153,15 @@
 			path = TrackVC;
 			sourceTree = "<group>";
 		};
+		ADBB20452B1087E1006A601E /* SourceOfDescriptionVC */ = {
+			isa = PBXGroup;
+			children = (
+				ADBB20432B1087B8006A601E /* SourceOfDescriptionVC.swift */,
+				ADBB20462B109C1C006A601E /* SourceVCModel.swift */,
+			);
+			path = SourceOfDescriptionVC;
+			sourceTree = "<group>";
+		};
 		ADC4D3E32A4DDC7D00942944 = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +187,7 @@
 				AD3EA3C12A8E44A30095E372 /* Coordinators */,
 				AD3EA3C62A8E47930095E372 /* HabitsVC */,
 				AD3EA3C92A8E6AE60095E372 /* InfoVC */,
+				ADBB20452B1087E1006A601E /* SourceOfDescriptionVC */,
 				AD980D5C2A6ADF9000BB9EA8 /* TrackVC */,
 				AD1B7D392A9658E3008E0098 /* EditVC */,
 				AD980D5B2A6ADF4500BB9EA8 /* Model */,
@@ -210,6 +226,9 @@
 			dependencies = (
 			);
 			name = Habits;
+			packageProductDependencies = (
+				ADC71ABE2B0F48DF007FF5FA /* Kingfisher */,
+			);
 			productName = Habits;
 			productReference = ADC4D3EC2A4DDC7D00942944 /* Habits.app */;
 			productType = "com.apple.product-type.application";
@@ -238,6 +257,9 @@
 				Base,
 			);
 			mainGroup = ADC4D3E32A4DDC7D00942944;
+			packageReferences = (
+				ADC71ABD2B0F48DF007FF5FA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = ADC4D3ED2A4DDC7D00942944 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -279,10 +301,12 @@
 				AD980D552A66BF9700BB9EA8 /* ProgressCollectionViewCell.swift in Sources */,
 				AD3843102B07B676004974AD /* InfoViewModel.swift in Sources */,
 				AD3EA3C82A8E47B50095E372 /* HabitsViewModel.swift in Sources */,
+				ADBB20442B1087B8006A601E /* SourceOfDescriptionVC.swift in Sources */,
 				AD3EA3D12A8F782E0095E372 /* TabBarCoordinator.swift in Sources */,
 				ADC4D40F2A4DF2A900942944 /* HabitsViewController.swift in Sources */,
 				ADC4D4112A4DF2D400942944 /* InfoViewController.swift in Sources */,
 				ADE43ECD2A73E4AC00B2799C /* TrackingDaysCell.swift in Sources */,
+				ADBB20472B109C1C006A601E /* SourceVCModel.swift in Sources */,
 				ADC4D3F22A4DDC7D00942944 /* SceneDelegate.swift in Sources */,
 				ADE43ECB2A73CF3D00B2799C /* TrackHabitViewController.swift in Sources */,
 				AD1B7D382A9658D0008E0098 /* TrackViewModel.swift in Sources */,
@@ -491,6 +515,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ADC71ABD2B0F48DF007FF5FA /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ADC71ABE2B0F48DF007FF5FA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ADC71ABD2B0F48DF007FF5FA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ADC4D3E42A4DDC7D00942944 /* Project object */;
 }

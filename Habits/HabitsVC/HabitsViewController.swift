@@ -134,9 +134,7 @@ extension HabitsViewController: UICollectionViewDataSource {
         if section == 0 {
             numberOfItems = 1
         } else {
-            numberOfItems = viewModel.habitsModel.count
-            print("numberOfItems in 2nd section - \(numberOfItems)")
-        }
+            numberOfItems = viewModel.habitsModel.count        }
         return numberOfItems
     }
 
@@ -148,7 +146,7 @@ extension HabitsViewController: UICollectionViewDataSource {
         } else {
             guard let habitCell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as? HabitCollectionViewCell else { return UICollectionViewCell()}
             habitCell.setup(habit: modelOfHabits[indexPath.item]){
-                collectionView.reloadItems(at: [indexPath]) // этот completion сохранен в checkMarkBtnStateClosure, чтобы его вызвать, когда нажмем на checkMark и тогда он сделает то, что в нем написано - reloadItems
+                collectionView.reloadData() // этот completion сохранен в checkMarkBtnStateClosure чтобы его вызвать, когда нажмем на checkMark и тогда он сделает то, что в нем написано - reloadData (и прогресс обновит)
             }
             return habitCell
         }
