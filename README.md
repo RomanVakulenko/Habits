@@ -1,6 +1,6 @@
 ## Habits
 
-**features** 
+**Features** 
 
 - adding / editing / deleting a habit
 - track habits doing by days
@@ -9,8 +9,8 @@
 
 **Stack** 
 - MVVM + Coordinator, NSAttributedString & NSMutableAttributedString for InfoScreen
-- TabBar, Collection, Header, Progress, Alerts, KingFisher
-- UserDefaults, DatePicker, ColorPicker, Delegates, Figma
+- TabBar, Collection, Table, Header, Progress, Alerts, KingFisher
+- UserDefaults, DatePicker, ColorPicker, Delegate, Figma
 
 
 
