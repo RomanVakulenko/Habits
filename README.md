@@ -8,14 +8,12 @@
 - infoScreen text has the internet link to source - can open it
 
 **Stack** 
-MVVM + Coordinator, NSAttributedString & NSMutableAttributedString for InfoScreen
-TabBar, Collection, Header, Progress, Alerts, KingFisher
-UserDefaults, DatePicker, ColorPicker, Delegates
+- MVVM + Coordinator, NSAttributedString & NSMutableAttributedString for InfoScreen
+- TabBar, Collection, Header, Progress, Alerts, KingFisher
+- UserDefaults, DatePicker, ColorPicker, Delegates
 
-Markdown | не такой | красивый
---- | --- | ---
-*Но выводится* | `так же` | **клево**
-1 | 2 | 3
+
+(https://github.com/RomanVakulenko/Habits/assets/97017715/00586698-6736-4d2f-8e1a-0fac7e48bc08)
 
 ![Simulator Screenshot - iPhone 14 Pro - 2023-12-29 at 16 48 26](https://github.com/RomanVakulenko/Habits/assets/97017715/00586698-6736-4d2f-8e1a-0fac7e48bc08)
 
