@@ -1,6 +1,6 @@
-## Features
+## Habits
 
-**Habits** 
+**features** 
 
 - adding / editing / deleting a habit
 - track habits doing by days
