@@ -5,7 +5,7 @@
 - adding / editing / deleting a habit
 - track habits doing by days
 - saves it
-- infoScreen text has the internet link to source - can open it
+- infoScreen has the internet link to source - can open it
 
 **Stack** 
 - MVVM + Coordinator, NSAttributedString & NSMutableAttributedString for InfoScreen
