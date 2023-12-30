@@ -22,14 +22,12 @@ final class HabitsViewModel {
 
     // MARK: - Public properties
     private(set) var habitsModel: [Habit] = []
-
     var trackModel: [Date] = HabitsStore.shared.dates
-
     var closureChangeState: ((State) -> Void)?
 
     // MARK: - Private properties
     private weak var habitsCoordinator: HabitsCoordinatorProtocol?
-
+    
     private var state: State = .none {
         didSet {
             closureChangeState?(state)

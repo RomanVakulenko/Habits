@@ -9,10 +9,6 @@ import UIKit
 
 final class TrackingDaysCell: UITableViewCell {
 
-//    let store = HabitsStore.shared
-//    private let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())
-//    private let twoDaysAgo = Calendar.current.date(byAdding: .day, value: -2, to: Date())
-
     private lazy var dateLabelView: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
