@@ -1,5 +1,5 @@
 //
-//  HabitDetailsViewController.swift
+//  TrackHabitViewController.swift
 //  Habits
 //
 //  Created by Roman Vakulenko on 28.07.2023.
@@ -7,13 +7,15 @@
 
 import UIKit
 
-final class HabitDetailsViewController: UIViewController {
+final class TrackHabitViewController: UIViewController {
 
-    var indexOfHabit = Int()
+
+    // MARK: - Private properties
     private let store = HabitsStore.shared
-    private let datesArr = HabitsStore.shared.dates
+    private var viewModel: TrackViewModel
 
-    private lazy var detailsTableView: UITableView = {
+    // MARK: - Subviews
+    private lazy var datesTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(TrackingDaysCell.self, forCellReuseIdentifier: TrackingDaysCell.identifier)
@@ -22,19 +24,38 @@ final class HabitDetailsViewController: UIViewController {
         return table
     }()
 
+
+    // MARK: - Init
+    init(viewModel: TrackViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "dBackground")
+        setupView()
         layout()
         navBarSettings()
+        viewModel.getDates()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.largeTitleDisplayMode = .never
     }
 
+    // MARK: - Private methods
+    private func setupView() {
+        view.addSubview(datesTableView)
+    }
 
-// MARK: - Private
     private func navBarSettings(){
         let backButton = UIBarButtonItem(title: "Сегодня", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
@@ -43,57 +64,63 @@ final class HabitDetailsViewController: UIViewController {
     }
 
     private func layout(){
-        view.addSubview(detailsTableView)
-
         NSLayoutConstraint.activate([
-            detailsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            detailsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            detailsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            detailsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            datesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            datesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            datesTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            datesTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 
+    private func bindViewModel() {
+        viewModel.closureChangeState = { [weak self] state in
+            guard let self else {return}
+
+            switch state {
+            case .none:
+                ()
+            case .didGetDates:
+                datesTableView.reloadData()
+            }
+        }
+    }
+    
     @objc func editHabit(_ sender: UIBarButtonItem){
-        let editVC = AddOrEditHabitVC()
-        editVC.habit = store.habits[indexOfHabit]
-        editVC.habitState = .edit
-        navigationController?.pushViewController(editVC, animated: true)
+        viewModel.didTapEditHabit()
     }
 }
 
+
 // MARK: - UITableViewDataSource
 
-extension HabitDetailsViewController: UITableViewDataSource {
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+extension TrackHabitViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datesArr.count
+        return viewModel.datesFromFirstLaunch.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackingDaysCell.identifier, for: indexPath) as! TrackingDaysCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackingDaysCell.identifier, for: indexPath) as? TrackingDaysCell else { return UITableViewCell() }
+        cell.setupAndShowIsTracked(from: viewModel.datesFromFirstLaunch, at: indexPath)
 
-        cell.setup(from: datesArr, at: indexPath)
-        var fallingDates = [Date]() //dates.reversed().map { $0 } //развернутый массив дат
-        for i in datesArr {
-            fallingDates.insert(i, at: 0)
-        }
-        if store.habit(store.habits[indexOfHabit], isTrackedIn: fallingDates[indexPath.row]) {
+        let reversedDatesFromFirstLaunch = viewModel.datesFromFirstLaunch.reversed().map{ $0 }
+        if let tappedHabit = viewModel.tappedHabit,
+           //выполнена ли привычка в конкретную дату из таблицы дат с момента 1ого запуска
+            store.habit(tappedHabit, isTrackedIn: reversedDatesFromFirstLaunch[indexPath.row]) {
             cell.accessoryType = .checkmark
         }
+
         cell.selectionStyle = .none
         return cell
     }
 }
 
+
 // MARK: - UITableViewDelegate
-extension HabitDetailsViewController: UITableViewDelegate {
+extension TrackHabitViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = HeaderDetailHabit()
+        let header = HeaderOfDetailHabit()
         header.setup(textForHeader: "АКТИВНОСТЬ")
 
         if section == 0 {

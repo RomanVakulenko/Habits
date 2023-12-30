@@ -32,7 +32,7 @@ public final class Habit: Codable {
 
     /// Описание времени выполнения привычки.
     public var dateString: String {
-        "Каждый день в " + dateFormatter.string(from: date)
+        "Каждый день в " +  Format.timeForHabitRepeats.string(from: date)
     }
 
     /// Показывает, была ли сегодня добавлена привычка.
@@ -47,13 +47,6 @@ public final class Habit: Codable {
     private var g: CGFloat
     private var b: CGFloat
     private var a: CGFloat
-
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ru_RU")
-        formatter.timeStyle = .short
-        return formatter
-    }()
 
     private lazy var calendar: Calendar = .current
 
@@ -112,8 +105,8 @@ public final class HabitsStore {
         guard habits.isEmpty == false else {
             return 0
         }
-        let takenTodayHabits = habits.filter { $0.isAlreadyTakenToday }
-        return Float(takenTodayHabits.count) / Float(habits.count)
+        let habitsTakenToday = habits.filter { $0.isAlreadyTakenToday }
+        return Float(habitsTakenToday.count) / Float(habits.count)
     }
 
     private lazy var userDefaults: UserDefaults = .standard
@@ -121,15 +114,6 @@ public final class HabitsStore {
     private lazy var decoder: JSONDecoder = .init()
 
     private lazy var encoder: JSONEncoder = .init()
-
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .init(identifier: "ru_RU")
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        formatter.doesRelativeDateFormatting = true
-        return formatter
-    }()
 
     private lazy var calendar: Calendar = .current
 
@@ -139,7 +123,7 @@ public final class HabitsStore {
     public func save() {
         do {
             let data = try encoder.encode(habits)
-            userDefaults.setValue(data, forKey: "habits")
+            userDefaults.set(data, forKey: "habits")
         }
         catch {
             print("Ошибка кодирования привычек для сохранения", error)
@@ -153,15 +137,6 @@ public final class HabitsStore {
         save()
     }
 
-    /// Возвращает отформатированное время для даты.
-    /// - Parameter index: Индекс в массиве dates.
-    public func trackDateString(forIndex index: Int) -> String? {
-        guard index < dates.count else {
-            return nil
-        }
-        return dateFormatter.string(from: dates[index])
-    }
-
     /// Показывает, была ли затрекана привычка в переданную дату.
     /// - Parameters:
     ///   - habit: Привычка, у которой проверяются затреканные даты.
@@ -171,22 +146,19 @@ public final class HabitsStore {
         habit.trackDates.contains { trackDate in
             calendar.isDate(date, equalTo: trackDate, toGranularity: .day)
         }
+
     }
 
     // MARK: - Private
 
     private init() {
-        if userDefaults.value(forKey: "start_date") == nil {
+        if userDefaults.object(forKey: "start_date") == nil {
             let startDate = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: Date())) ?? Date()
-            userDefaults.setValue(startDate, forKey: "start_date")
+            userDefaults.set(startDate, forKey: "start_date")
         }
-        guard let data = userDefaults.data(forKey: "habits") else {
-            assertionFailure("не смог достать дату по ключу")
-            return
-        }
+        guard let data = userDefaults.data(forKey: "habits") else { return }
         do {
             habits = try decoder.decode([Habit].self, from: data)
-            print(habits)
         }
         catch {
             print("Ошибка декодирования сохранённых привычек", error)
@@ -200,13 +172,14 @@ private extension Date {
         var dates: [Date] = []
         var date = fromDate
 
-        while date <= toDate {
+        while Calendar.current.compare(date, to: toDate, toGranularity: .day) != .orderedDescending {
             dates.append(date)
             guard let newDate = Calendar.current.date(byAdding: .day, value: 1, to: date) else {
                 break
             }
             date = newDate
         }
+
         return dates
     }
 }

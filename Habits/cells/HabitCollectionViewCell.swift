@@ -10,7 +10,7 @@ import UIKit
 final class HabitCollectionViewCell: UICollectionViewCell {
 
     private var habit: Habit!
-    private var stateBntTapClosure: (() -> Void)! //0. чтобы обновлять табличку и показывать нажатие сразу после нажатия
+    private var checkMarkBtnStateClosure: (() -> Void)! //0. cоздали, чтобы обновлять табличку и показывать check тут же
 
     private let habitView: UIView = {
         let whiteView = UIView()
@@ -38,7 +38,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    private let timeOfHabit: UILabel = {
+    private let timeToPracticeHabit: UILabel = {
         let time = UILabel()
         time.translatesAutoresizingMaskIntoConstraints = false
         time.textColor = .systemGray2
@@ -47,7 +47,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         return time
     }()
 
-    private let counterOfHabit: UILabel = {
+    private let counterLabel: UILabel = {
         let counterName = UILabel()
         counterName.translatesAutoresizingMaskIntoConstraints = false
         counterName.textColor = .systemGray
@@ -74,7 +74,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-
+//вариант создания кнопки
 //    private let checkedButton = UIImage(systemName: "checkmark.circle.fill")?.withRenderingMode(.alwaysTemplate) //позволяет создать шаблонное изображение, которое может быть затемнено или окрашено в другой цвет, используя эту картинку
 //    private let uncheckedButton = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
 
@@ -95,13 +95,13 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         checkMarkImageView.addGestureRecognizer(tapToCheckMark)
     }
 
-    func setup(habit: Habit, closure: @escaping () -> Void){ // замыкание задерживается в памяти на время и вызывается после того как функция вернула значение.
+    func setup(habit: Habit, completion: @escaping () -> Void){
         self.habit = habit
-        self.stateBntTapClosure = closure //2. closure вызывается после того как функция вернула значение.
+        self.checkMarkBtnStateClosure = completion //1. в closure сохраним сбегающее замыкание, будет вызвано когда-то после работы самого метода setup.
 
         nameOfHabit.text = habit.name
         nameOfHabit.textColor = habit.color
-        timeOfHabit.text = habit.dateString
+        timeToPracticeHabit.text = habit.dateString
         amountOfRepeats.text = String(habit.trackDates.count)
 
         if habit.isAlreadyTakenToday {
@@ -114,18 +114,10 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         checkMarkImageView.tintColor = habit.color
     }
 
-    override func prepareForReuse() {
-        nameOfHabit.text = nil
-        nameOfHabit.textColor = nil
-        timeOfHabit.text = nil
-        amountOfRepeats.text = nil
-//        checkButtonButton.imageView?.image = nil
-    }
-
 //MARK: - private methods
 
     private func layout() {
-        [nameOfHabit, everyDayLabel, timeOfHabit, counterOfHabit, amountOfRepeats, checkMarkImageView].forEach { habitView.addSubview($0) }
+        [nameOfHabit, everyDayLabel, timeToPracticeHabit, counterLabel, amountOfRepeats, checkMarkImageView].forEach { habitView.addSubview($0) }
         contentView.addSubview(habitView)
 
         NSLayoutConstraint.activate([
@@ -142,13 +134,13 @@ final class HabitCollectionViewCell: UICollectionViewCell {
             everyDayLabel.leadingAnchor.constraint(equalTo: nameOfHabit.leadingAnchor),
             everyDayLabel.topAnchor.constraint(equalTo: nameOfHabit.bottomAnchor, constant: 4),
 
-            timeOfHabit.leadingAnchor.constraint(equalTo: everyDayLabel.trailingAnchor),
-            timeOfHabit.topAnchor.constraint(equalTo: nameOfHabit.bottomAnchor, constant: 4),
+            timeToPracticeHabit.leadingAnchor.constraint(equalTo: everyDayLabel.trailingAnchor),
+            timeToPracticeHabit.topAnchor.constraint(equalTo: nameOfHabit.bottomAnchor, constant: 4),
 
-            counterOfHabit.leadingAnchor.constraint(equalTo: habitView.leadingAnchor, constant: 20),
-            counterOfHabit.bottomAnchor.constraint(equalTo: habitView.bottomAnchor, constant: -20),
+            counterLabel.leadingAnchor.constraint(equalTo: habitView.leadingAnchor, constant: 20),
+            counterLabel.bottomAnchor.constraint(equalTo: habitView.bottomAnchor, constant: -20),
 
-            amountOfRepeats.leadingAnchor.constraint(equalTo: counterOfHabit.trailingAnchor),
+            amountOfRepeats.leadingAnchor.constraint(equalTo: counterLabel.trailingAnchor),
             amountOfRepeats.bottomAnchor.constraint(equalTo: habitView.bottomAnchor, constant: -20),
 
             checkMarkImageView.trailingAnchor.constraint(equalTo: habitView.trailingAnchor, constant: -25),
@@ -160,10 +152,8 @@ final class HabitCollectionViewCell: UICollectionViewCell {
 
     @objc func checkMarkTapped(_ sender: UIButton) {
         if habit.isAlreadyTakenToday == false {
-//            checkMarkButton.setImage(checkedButton, for: .normal)
-//            checkMarkImageView.image = UIImage.init(systemName: "checkmark.circle.fill")
             HabitsStore.shared.track(habit)
-            self.stateBntTapClosure() //2. вызываем клоужер 
+            self.checkMarkBtnStateClosure() //2. вызываем клоужер - и в этот момент он обновляет конкретную ячейку
         }
     }
 
