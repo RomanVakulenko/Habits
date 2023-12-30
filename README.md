@@ -16,6 +16,8 @@
 
 <img src="https://github.com/RomanVakulenko/Habits/assets/97017715/00586698-6736-4d2f-8e1a-0fac7e48bc08" width="240">
 
+<img src="https://github.com/RomanVakulenko/Habits/assets/97017715/2302adcd-cdeb-4c7a-be70-5e59e7b5f6f3" width="240">
+
 <img src="https://github.com/RomanVakulenko/Habits/assets/97017715/2e686e6c-1cfa-4b56-a7cf-50a2a417c580" width="240">
 
 <img src="https://github.com/RomanVakulenko/Habits/assets/97017715/aa954e40-7170-4b4d-96ac-e5781dbb7395" width="240">
