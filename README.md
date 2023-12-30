@@ -8,10 +8,10 @@
 - infoScreen has the internet link to source - can open it
 
 **Stack** 
-- MVVM + Coordinator, NSAttributedString & NSMutableAttributedString for InfoScreen
-- TabBar, Collection, Table, Header, Progress, Alerts, KingFisher
-- UserDefaults, DatePicker, ColorPicker, Delegate, Figma
-
+- MVVM + Coordinator
+- UserDefaults, Delegate, NSAttributedString & NSMutableAttributedString for InfoScreen 
+- TabBar, Collection, Table, Header, Custom Cells, Progress, Alerts
+- DatePicker, ColorPicker, KingFisher, Figma
 
 
 <img src="https://github.com/RomanVakulenko/Habits/assets/97017715/00586698-6736-4d2f-8e1a-0fac7e48bc08" width="240">
