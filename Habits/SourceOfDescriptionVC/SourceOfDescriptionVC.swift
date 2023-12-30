@@ -69,7 +69,7 @@ final class SourceOfDescriptionVC: UIViewController {
        //    When prepared, it animates the small thumbnail image with a "fade in" effect.
        //    The original large image is also cached to disk for later use, to get rid of downloading it again in a detail view.
        //    A console log is printed when the task finishes, either for success or failure.
-           let url = URL(string: "https://images.pexels.com/photos/5591708/pexels-photo-5591708.jpeg?auto=compress&cs=tinysrgb&w=1200")
+           let url = URL(string: "https://unsplash.com/photos/a-man-standing-on-top-of-a-roof-in-the-snow-m7yVul9-AbA")
            let processor = DownsamplingImageProcessor(size: viewForPictrure.bounds.size)
                         |> RoundCornerImageProcessor(cornerRadius: 10) //|> "pipe-forward" оператор, используется для передачи результата выражения слева от оператора в качестве 1ого аргумента функции справа от оператора.
         viewForPictrure.kf.indicatorType = .activity

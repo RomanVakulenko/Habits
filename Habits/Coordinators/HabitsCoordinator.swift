@@ -27,7 +27,6 @@ final class HabitsCoordinator {
     }
 
     // MARK: - Private methods
-
     private func makeHabitsVC() -> UIViewController {
         let viewModel = HabitsViewModel(coordinator: self)
         let habitsVC =  HabitsViewController(viewModel: viewModel)
@@ -37,13 +36,11 @@ final class HabitsCoordinator {
         return navigationController
     }
 
-
     private func makeAddNewHabitVC(addDelegate: AddHabitDelegate, habitState: HabitVCState) -> UIViewController {
         let viewModel = AddOrEditViewModel(coordinator: self, addDelegate: addDelegate)
         let addVC = AddOrEditHabitVC(viewModel: viewModel, habitState: habitState)
         return addVC
     }
-
 
     private func makeTrackVC(habitModel: Habit, editDelegate: EditHabitDelegate, indexPath: IndexPath) -> UIViewController {
         let viewModel = TrackViewModel(
@@ -56,7 +53,6 @@ final class HabitsCoordinator {
         trackVC.title = HabitsStore.shared.habits[indexPath.row].name
         return trackVC
     }
-
 
     private func makeEditVC(modelForEdit: Habit, habitState: HabitVCState, editDelegate: EditHabitDelegate, indexPath: IndexPath) -> UIViewController {
         let viewModel = AddOrEditViewModel(
@@ -88,12 +84,10 @@ extension HabitsCoordinator: HabitsCoordinatorProtocol {
         navigationController.pushViewController(vc, animated: true)
     }
 
-
     func pushTrackVCWith(model: Habit, delegate: EditHabitDelegate, indexPath: IndexPath) {
         let vc = makeTrackVC(habitModel: model, editDelegate: delegate, indexPath: indexPath)
         navigationController.pushViewController(vc, animated: true)
     }
-
 
     func pushEditVC(habitForEdit: Habit, habitState habitVCState: HabitVCState, delegate: EditHabitDelegate, indexPath: IndexPath) {
         let vc = makeEditVC(

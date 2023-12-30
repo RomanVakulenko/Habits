@@ -95,7 +95,7 @@ final class HabitCollectionViewCell: UICollectionViewCell {
         checkMarkImageView.addGestureRecognizer(tapToCheckMark)
     }
 
-    func setup(habit: Habit, completion: @escaping () -> Void){ // completion вызывается после того как функция вернула значение.
+    func setup(habit: Habit, completion: @escaping () -> Void){
         self.habit = habit
         self.checkMarkBtnStateClosure = completion //1. в closure сохраним сбегающее замыкание, будет вызвано когда-то после работы самого метода setup.
 
